@@ -91,10 +91,10 @@ Profiling Based Time :<br />
     - **pbkdf2_hmac_isha(...)** which calls the **F()** which in turn calls **hmac_isha()** :  107 msec 
     <br />
     With ISHA : <br />
-    - A generic code flow is as follows (internal loop branching is ignored), 
-        - pbkdf2_hmac_isha() -> F() -> hmac_isha() -> ISHAReset() 
-        - ..........................-> hmac_isha() -> ISHAInput() 
-        - ..........................-> hmac_isha() -> ISHAResult() 
+    - A generic code flow is as follows (internal loop branching is ignored),  <br />
+        - pbkdf2_hmac_isha() -> F() -> hmac_isha() -> ISHAReset()  <br />
+        - ..........................-> hmac_isha() -> ISHAInput()  <br />
+        - ..........................-> hmac_isha() -> ISHAResult()  <br />
 
     With Internal Loops a single iteration of hmac_isha() leads to following times <br />
 
