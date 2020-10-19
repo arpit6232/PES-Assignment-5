@@ -1,0 +1,196 @@
+          ISHAProcessMessageBlock:
+00003984:   push    {r7, lr}
+00003986:   sub     sp, #104        ; 0x68
+00003988:   add     r7, sp, #0
+0000398a:   str     r0, [r7, #4]
+ 36         A = ctx->MD[0];
+0000398c:   ldr     r3, [r7, #4]
+0000398e:   ldr     r3, [r3, #0]
+00003990:   str     r3, [r7, #96]   ; 0x60
+ 37         B = ctx->MD[1];
+00003992:   ldr     r3, [r7, #4]
+00003994:   ldr     r3, [r3, #4]
+00003996:   str     r3, [r7, #92]   ; 0x5c
+ 38         C = ctx->MD[2];
+00003998:   ldr     r3, [r7, #4]
+0000399a:   ldr     r3, [r3, #8]
+0000399c:   str     r3, [r7, #88]   ; 0x58
+ 39         D = ctx->MD[3];
+0000399e:   ldr     r3, [r7, #4]
+000039a0:   ldr     r3, [r3, #12]
+000039a2:   str     r3, [r7, #84]   ; 0x54
+ 40         E = ctx->MD[4];
+000039a4:   ldr     r3, [r7, #4]
+000039a6:   ldr     r3, [r3, #16]
+000039a8:   str     r3, [r7, #80]   ; 0x50
+ 42         for(t = 0; t < 16; t++)
+000039aa:   movs    r3, #0
+000039ac:   str     r3, [r7, #100]  ; 0x64
+000039ae:   b.n     0x3a30 <ISHAProcessMessageBlock+172>
+ 44           W[t] = ((uint32_t) ctx->MBlock[t * 4]) << 24;
+000039b0:   ldr     r3, [r7, #100]  ; 0x64
+000039b2:   lsls    r3, r3, #2
+000039b4:   ldr     r2, [r7, #4]
+000039b6:   adds    r3, r2, r3
+000039b8:   ldrb    r3, [r3, #28]
+000039ba:   lsls    r1, r3, #24
+000039bc:   movs    r0, #12
+000039be:   adds    r3, r7, r0
+000039c0:   ldr     r2, [r7, #100]  ; 0x64
+000039c2:   lsls    r2, r2, #2
+000039c4:   str     r1, [r2, r3]
+ 45           W[t] |= ((uint32_t) ctx->MBlock[t * 4 + 1]) << 16;
+000039c6:   adds    r3, r7, r0
+000039c8:   ldr     r2, [r7, #100]  ; 0x64
+000039ca:   lsls    r2, r2, #2
+000039cc:   ldr     r2, [r2, r3]
+000039ce:   ldr     r3, [r7, #100]  ; 0x64
+000039d0:   lsls    r3, r3, #2
+000039d2:   adds    r3, #1
+000039d4:   ldr     r1, [r7, #4]
+000039d6:   adds    r3, r1, r3
+000039d8:   ldrb    r3, [r3, #28]
+000039da:   lsls    r3, r3, #16
+000039dc:   orrs    r2, r3
+000039de:   movs    r1, r2
+000039e0:   adds    r3, r7, r0
+000039e2:   ldr     r2, [r7, #100]  ; 0x64
+000039e4:   lsls    r2, r2, #2
+000039e6:   str     r1, [r2, r3]
+ 46           W[t] |= ((uint32_t) ctx->MBlock[t * 4 + 2]) << 8;
+000039e8:   adds    r3, r7, r0
+000039ea:   ldr     r2, [r7, #100]  ; 0x64
+000039ec:   lsls    r2, r2, #2
+000039ee:   ldr     r2, [r2, r3]
+000039f0:   ldr     r3, [r7, #100]  ; 0x64
+000039f2:   lsls    r3, r3, #2
+000039f4:   adds    r3, #2
+000039f6:   ldr     r1, [r7, #4]
+000039f8:   adds    r3, r1, r3
+000039fa:   ldrb    r3, [r3, #28]
+000039fc:   lsls    r3, r3, #8
+000039fe:   orrs    r2, r3
+00003a00:   movs    r1, r2
+00003a02:   adds    r3, r7, r0
+00003a04:   ldr     r2, [r7, #100]  ; 0x64
+00003a06:   lsls    r2, r2, #2
+00003a08:   str     r1, [r2, r3]
+ 47           W[t] |= ((uint32_t) ctx->MBlock[t * 4 + 3]);
+00003a0a:   adds    r3, r7, r0
+00003a0c:   ldr     r2, [r7, #100]  ; 0x64
+00003a0e:   lsls    r2, r2, #2
+00003a10:   ldr     r3, [r2, r3]
+00003a12:   ldr     r2, [r7, #100]  ; 0x64
+00003a14:   lsls    r2, r2, #2
+00003a16:   adds    r2, #3
+00003a18:   ldr     r1, [r7, #4]
+00003a1a:   adds    r2, r1, r2
+00003a1c:   ldrb    r2, [r2, #28]
+00003a1e:   orrs    r3, r2
+00003a20:   movs    r1, r3
+00003a22:   adds    r3, r7, r0
+00003a24:   ldr     r2, [r7, #100]  ; 0x64
+00003a26:   lsls    r2, r2, #2
+00003a28:   str     r1, [r2, r3]
+ 42         for(t = 0; t < 16; t++)
+00003a2a:   ldr     r3, [r7, #100]  ; 0x64
+00003a2c:   adds    r3, #1
+00003a2e:   str     r3, [r7, #100]  ; 0x64
+00003a30:   ldr     r3, [r7, #100]  ; 0x64
+00003a32:   cmp     r3, #15
+00003a34:   ble.n   0x39b0 <ISHAProcessMessageBlock+44>
+ 50         for(t = 0; t < 16; t++)
+00003a36:   movs    r3, #0
+00003a38:   str     r3, [r7, #100]  ; 0x64
+00003a3a:   b.n     0x3a86 <ISHAProcessMessageBlock+258>
+ 52           temp = ISHACircularShift(5,A) + ((B & C) | ((~B) & D)) + E + W[t];
+00003a3c:   ldr     r3, [r7, #96]   ; 0x60
+00003a3e:   movs    r2, #27
+00003a40:   rors    r3, r2
+00003a42:   movs    r2, r3
+00003a44:   ldr     r3, [r7, #92]   ; 0x5c
+00003a46:   ldr     r1, [r7, #88]   ; 0x58
+00003a48:   ands    r1, r3
+00003a4a:   ldr     r3, [r7, #92]   ; 0x5c
+00003a4c:   mvns    r3, r3
+00003a4e:   ldr     r0, [r7, #84]   ; 0x54
+00003a50:   ands    r3, r0
+00003a52:   orrs    r3, r1
+00003a54:   adds    r2, r2, r3
+00003a56:   ldr     r3, [r7, #80]   ; 0x50
+00003a58:   adds    r2, r2, r3
+00003a5a:   movs    r3, #12
+00003a5c:   adds    r3, r7, r3
+00003a5e:   ldr     r1, [r7, #100]  ; 0x64
+00003a60:   lsls    r1, r1, #2
+00003a62:   ldr     r3, [r1, r3]
+00003a64:   adds    r3, r2, r3
+00003a66:   str     r3, [r7, #76]   ; 0x4c
+ 54           E = D;
+00003a68:   ldr     r3, [r7, #84]   ; 0x54
+00003a6a:   str     r3, [r7, #80]   ; 0x50
+ 55           D = C;
+00003a6c:   ldr     r3, [r7, #88]   ; 0x58
+00003a6e:   str     r3, [r7, #84]   ; 0x54
+ 56           C = ISHACircularShift(30,B);
+00003a70:   ldr     r3, [r7, #92]   ; 0x5c
+00003a72:   movs    r2, #2
+00003a74:   rors    r3, r2
+00003a76:   str     r3, [r7, #88]   ; 0x58
+ 57           B = A;
+00003a78:   ldr     r3, [r7, #96]   ; 0x60
+00003a7a:   str     r3, [r7, #92]   ; 0x5c
+ 58           A = temp;
+00003a7c:   ldr     r3, [r7, #76]   ; 0x4c
+00003a7e:   str     r3, [r7, #96]   ; 0x60
+00003a80:   ldr     r3, [r7, #100]  ; 0x64
+00003a82:   adds    r3, #1
+00003a84:   str     r3, [r7, #100]  ; 0x64
+00003a86:   ldr     r3, [r7, #100]  ; 0x64
+00003a88:   cmp     r3, #15
+00003a8a:   ble.n   0x3a3c <ISHAProcessMessageBlock+184>
+ 61         ctx->MD[0] = (ctx->MD[0] + A) & 0xFFFFFFFF;
+00003a8c:   ldr     r3, [r7, #4]
+00003a8e:   ldr     r2, [r3, #0]
+00003a90:   ldr     r3, [r7, #96]   ; 0x60
+00003a92:   adds    r2, r2, r3
+00003a94:   ldr     r3, [r7, #4]
+00003a96:   str     r2, [r3, #0]
+ 62         ctx->MD[1] = (ctx->MD[1] + B) & 0xFFFFFFFF;
+00003a98:   ldr     r3, [r7, #4]
+00003a9a:   ldr     r2, [r3, #4]
+00003a9c:   ldr     r3, [r7, #92]   ; 0x5c
+00003a9e:   adds    r2, r2, r3
+00003aa0:   ldr     r3, [r7, #4]
+00003aa2:   str     r2, [r3, #4]
+ 63         ctx->MD[2] = (ctx->MD[2] + C) & 0xFFFFFFFF;
+00003aa4:   ldr     r3, [r7, #4]
+00003aa6:   ldr     r2, [r3, #8]
+00003aa8:   ldr     r3, [r7, #88]   ; 0x58
+00003aaa:   adds    r2, r2, r3
+00003aac:   ldr     r3, [r7, #4]
+00003aae:   str     r2, [r3, #8]
+ 64         ctx->MD[3] = (ctx->MD[3] + D) & 0xFFFFFFFF;
+00003ab0:   ldr     r3, [r7, #4]
+00003ab2:   ldr     r2, [r3, #12]
+00003ab4:   ldr     r3, [r7, #84]   ; 0x54
+00003ab6:   adds    r2, r2, r3
+00003ab8:   ldr     r3, [r7, #4]
+00003aba:   str     r2, [r3, #12]
+ 65         ctx->MD[4] = (ctx->MD[4] + E) & 0xFFFFFFFF;
+00003abc:   ldr     r3, [r7, #4]
+00003abe:   ldr     r2, [r3, #16]
+00003ac0:   ldr     r3, [r7, #80]   ; 0x50
+00003ac2:   adds    r2, r2, r3
+00003ac4:   ldr     r3, [r7, #4]
+00003ac6:   str     r2, [r3, #16]
+ 67         ctx->MB_Idx = 0;
+00003ac8:   ldr     r3, [r7, #4]
+00003aca:   movs    r2, #0
+00003acc:   str     r2, [r3, #92]   ; 0x5c
+ 68       }
+00003ace:   nop     ; (mov r8, r8)
+00003ad0:   mov     sp, r7
+00003ad2:   add     sp, #104        ; 0x68
+00003ad4:   pop     {r7, pc}
+ 84       {

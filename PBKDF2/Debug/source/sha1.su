@@ -1,0 +1,5 @@
+sha1.c:72:6:SHA1Reset	16	static
+sha1.c:105:5:SHA1Result	16	static
+sha1.c:144:6:SHA1Input	24	static
+sha1.c:208:6:SHA1ProcessMessageBlock	112	static
+sha1.c:277:6:SHA1PadMessage	16	static

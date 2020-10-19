@@ -1,0 +1,3 @@
+leds.c:35:6:init_leds	8	static
+leds.c:84:6:set_led	16	static
+leds.c:93:1:between_color	48	static

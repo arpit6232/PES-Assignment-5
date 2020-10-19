@@ -1,0 +1,3 @@
+PBKDF2_Optimization.c:29:13:time_pbkdf2_hmac_isha	584	static
+PBKDF2_Optimization.c:58:13:run_tests	16	static
+PBKDF2_Optimization.c:77:5:main	8	static

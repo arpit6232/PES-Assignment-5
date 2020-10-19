@@ -1,0 +1,105 @@
+          ISHAInput:
+00003ca4:   push    {r7, lr}
+00003ca6:   sub     sp, #16
+00003ca8:   add     r7, sp, #0
+00003caa:   str     r0, [r7, #12]
+00003cac:   str     r1, [r7, #8]
+00003cae:   str     r2, [r7, #4]
+174         if (!length)
+00003cb0:   ldr     r3, [r7, #4]
+00003cb2:   cmp     r3, #0
+00003cb4:   beq.n   0x3d4a <ISHAInput+166>
+179         if (ctx->Computed || ctx->Corrupted)
+00003cb6:   ldr     r3, [r7, #12]
+00003cb8:   ldr     r3, [r3, #96]   ; 0x60
+00003cba:   cmp     r3, #0
+00003cbc:   bne.n   0x3cc6 <ISHAInput+34>
+00003cbe:   ldr     r3, [r7, #12]
+00003cc0:   ldr     r3, [r3, #100]  ; 0x64
+00003cc2:   cmp     r3, #0
+00003cc4:   beq.n   0x3d36 <ISHAInput+146>
+181           ctx->Corrupted = 1;
+00003cc6:   ldr     r3, [r7, #12]
+00003cc8:   movs    r2, #1
+00003cca:   str     r2, [r3, #100]  ; 0x64
+182           return;
+00003ccc:   b.n     0x3d4c <ISHAInput+168>
+187           ctx->MBlock[ctx->MB_Idx++] = (*message_array & 0xFF);
+00003cce:   ldr     r3, [r7, #12]
+00003cd0:   ldr     r3, [r3, #92]   ; 0x5c
+00003cd2:   adds    r1, r3, #1
+00003cd4:   ldr     r2, [r7, #12]
+00003cd6:   str     r1, [r2, #92]   ; 0x5c
+00003cd8:   ldr     r2, [r7, #8]
+00003cda:   ldrb    r1, [r2, #0]
+00003cdc:   ldr     r2, [r7, #12]
+00003cde:   adds    r3, r2, r3
+00003ce0:   adds    r2, r1, #0
+00003ce2:   strb    r2, [r3, #28]
+189           ctx->Length_Low += 8;
+00003ce4:   ldr     r3, [r7, #12]
+00003ce6:   ldr     r3, [r3, #20]
+00003ce8:   adds    r3, #8
+00003cea:   movs    r2, r3
+00003cec:   ldr     r3, [r7, #12]
+00003cee:   str     r2, [r3, #20]
+191           ctx->Length_Low &= 0xFFFFFFFF;
+00003cf0:   ldr     r3, [r7, #12]
+00003cf2:   ldr     r2, [r3, #20]
+00003cf4:   ldr     r3, [r7, #12]
+00003cf6:   str     r2, [r3, #20]
+192           if (ctx->Length_Low == 0)
+00003cf8:   ldr     r3, [r7, #12]
+00003cfa:   ldr     r3, [r3, #20]
+00003cfc:   cmp     r3, #0
+00003cfe:   bne.n   0x3d20 <ISHAInput+124>
+194             ctx->Length_High++;
+00003d00:   ldr     r3, [r7, #12]
+00003d02:   ldr     r3, [r3, #24]
+00003d04:   adds    r2, r3, #1
+00003d06:   ldr     r3, [r7, #12]
+00003d08:   str     r2, [r3, #24]
+196             ctx->Length_High &= 0xFFFFFFFF;
+00003d0a:   ldr     r3, [r7, #12]
+00003d0c:   ldr     r2, [r3, #24]
+00003d0e:   ldr     r3, [r7, #12]
+00003d10:   str     r2, [r3, #24]
+197             if (ctx->Length_High == 0)
+00003d12:   ldr     r3, [r7, #12]
+00003d14:   ldr     r3, [r3, #24]
+00003d16:   cmp     r3, #0
+00003d18:   bne.n   0x3d20 <ISHAInput+124>
+200               ctx->Corrupted = 1;
+00003d1a:   ldr     r3, [r7, #12]
+00003d1c:   movs    r2, #1
+00003d1e:   str     r2, [r3, #100]  ; 0x64
+204           if (ctx->MB_Idx == 64)
+00003d20:   ldr     r3, [r7, #12]
+00003d22:   ldr     r3, [r3, #92]   ; 0x5c
+00003d24:   cmp     r3, #64 ; 0x40
+00003d26:   bne.n   0x3d30 <ISHAInput+140>
+206             ISHAProcessMessageBlock(ctx);
+00003d28:   ldr     r3, [r7, #12]
+00003d2a:   movs    r0, r3
+00003d2c:   bl      0x3984 <ISHAProcessMessageBlock>
+209           message_array++;
+00003d30:   ldr     r3, [r7, #8]
+00003d32:   adds    r3, #1
+00003d34:   str     r3, [r7, #8]
+185         while(length-- && !ctx->Corrupted)
+00003d36:   ldr     r3, [r7, #4]
+00003d38:   subs    r2, r3, #1
+00003d3a:   str     r2, [r7, #4]
+00003d3c:   cmp     r3, #0
+00003d3e:   beq.n   0x3d4c <ISHAInput+168>
+00003d40:   ldr     r3, [r7, #12]
+00003d42:   ldr     r3, [r3, #100]  ; 0x64
+00003d44:   cmp     r3, #0
+00003d46:   beq.n   0x3cce <ISHAInput+42>
+00003d48:   b.n     0x3d4c <ISHAInput+168>
+176           return;
+00003d4a:   nop     ; (mov r8, r8)
+211       }
+00003d4c:   mov     sp, r7
+00003d4e:   add     sp, #16
+00003d50:   pop     {r7, pc}

@@ -1,0 +1,109 @@
+          ISHAResult:
+00003be4:   push    {r7, lr}
+00003be6:   sub     sp, #16
+00003be8:   add     r7, sp, #0
+00003bea:   str     r0, [r7, #4]
+00003bec:   str     r1, [r7, #0]
+150         if (ctx->Corrupted)
+00003bee:   ldr     r3, [r7, #4]
+00003bf0:   ldr     r3, [r3, #100]  ; 0x64
+00003bf2:   cmp     r3, #0
+00003bf4:   bne.n   0x3c9c <ISHAResult+184>
+155         if (!ctx->Computed)
+00003bf6:   ldr     r3, [r7, #4]
+00003bf8:   ldr     r3, [r3, #96]   ; 0x60
+00003bfa:   cmp     r3, #0
+00003bfc:   bne.n   0x3c0c <ISHAResult+40>
+157           ISHAPadMessage(ctx);
+00003bfe:   ldr     r3, [r7, #4]
+00003c00:   movs    r0, r3
+00003c02:   bl      0x3ad6 <ISHAPadMessage>
+158           ctx->Computed = 1;
+00003c06:   ldr     r3, [r7, #4]
+00003c08:   movs    r2, #1
+00003c0a:   str     r2, [r3, #96]   ; 0x60
+161         for (int i=0; i<20; i+=4) {
+00003c0c:   movs    r3, #0
+00003c0e:   str     r3, [r7, #12]
+00003c10:   b.n     0x3c94 <ISHAResult+176>
+162           digest_out[i]   = (ctx->MD[i/4] & 0xff000000) >> 24;
+00003c12:   ldr     r3, [r7, #12]
+00003c14:   cmp     r3, #0
+00003c16:   bge.n   0x3c1a <ISHAResult+54>
+00003c18:   adds    r3, #3
+00003c1a:   asrs    r3, r3, #2
+00003c1c:   movs    r2, r3
+00003c1e:   ldr     r3, [r7, #4]
+00003c20:   lsls    r2, r2, #2
+00003c22:   ldr     r3, [r2, r3]
+00003c24:   lsrs    r1, r3, #24
+00003c26:   ldr     r3, [r7, #12]
+00003c28:   ldr     r2, [r7, #0]
+00003c2a:   adds    r3, r2, r3
+00003c2c:   uxtb    r2, r1
+00003c2e:   strb    r2, [r3, #0]
+163           digest_out[i+1] = (ctx->MD[i/4] & 0x00ff0000) >> 16;
+00003c30:   ldr     r3, [r7, #12]
+00003c32:   cmp     r3, #0
+00003c34:   bge.n   0x3c38 <ISHAResult+84>
+00003c36:   adds    r3, #3
+00003c38:   asrs    r3, r3, #2
+00003c3a:   movs    r2, r3
+00003c3c:   ldr     r3, [r7, #4]
+00003c3e:   lsls    r2, r2, #2
+00003c40:   ldr     r3, [r2, r3]
+00003c42:   lsrs    r1, r3, #16
+00003c44:   ldr     r3, [r7, #12]
+00003c46:   adds    r3, #1
+00003c48:   ldr     r2, [r7, #0]
+00003c4a:   adds    r3, r2, r3
+00003c4c:   uxtb    r2, r1
+00003c4e:   strb    r2, [r3, #0]
+164           digest_out[i+2] = (ctx->MD[i/4] & 0x0000ff00) >> 8;
+00003c50:   ldr     r3, [r7, #12]
+00003c52:   cmp     r3, #0
+00003c54:   bge.n   0x3c58 <ISHAResult+116>
+00003c56:   adds    r3, #3
+00003c58:   asrs    r3, r3, #2
+00003c5a:   movs    r2, r3
+00003c5c:   ldr     r3, [r7, #4]
+00003c5e:   lsls    r2, r2, #2
+00003c60:   ldr     r3, [r2, r3]
+00003c62:   lsrs    r1, r3, #8
+00003c64:   ldr     r3, [r7, #12]
+00003c66:   adds    r3, #2
+00003c68:   ldr     r2, [r7, #0]
+00003c6a:   adds    r3, r2, r3
+00003c6c:   uxtb    r2, r1
+00003c6e:   strb    r2, [r3, #0]
+165           digest_out[i+3] = (ctx->MD[i/4] & 0x000000ff);
+00003c70:   ldr     r3, [r7, #12]
+00003c72:   cmp     r3, #0
+00003c74:   bge.n   0x3c78 <ISHAResult+148>
+00003c76:   adds    r3, #3
+00003c78:   asrs    r3, r3, #2
+00003c7a:   movs    r2, r3
+00003c7c:   ldr     r3, [r7, #4]
+00003c7e:   lsls    r2, r2, #2
+00003c80:   ldr     r1, [r2, r3]
+00003c82:   ldr     r3, [r7, #12]
+00003c84:   adds    r3, #3
+00003c86:   ldr     r2, [r7, #0]
+00003c88:   adds    r3, r2, r3
+00003c8a:   uxtb    r2, r1
+00003c8c:   strb    r2, [r3, #0]
+161         for (int i=0; i<20; i+=4) {
+00003c8e:   ldr     r3, [r7, #12]
+00003c90:   adds    r3, #4
+00003c92:   str     r3, [r7, #12]
+00003c94:   ldr     r3, [r7, #12]
+00003c96:   cmp     r3, #19
+00003c98:   ble.n   0x3c12 <ISHAResult+46>
+168         return;
+00003c9a:   b.n     0x3c9e <ISHAResult+186>
+152           return;
+00003c9c:   nop     ; (mov r8, r8)
+169       }
+00003c9e:   mov     sp, r7
+00003ca0:   add     sp, #16
+00003ca2:   pop     {r7, pc}

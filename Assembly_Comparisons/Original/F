@@ -1,0 +1,254 @@
+          F:
+0000075c:   push    {r4, r5, r7, lr}
+0000075e:   ldr     r4, [pc, #432]  ; (0x910 <F+436>)
+00000760:   add     sp, r4
+00000762:   add     r7, sp, #8
+00000764:   str     r0, [r7, #12]
+00000766:   str     r1, [r7, #8]
+00000768:   str     r2, [r7, #4]
+0000076a:   str     r3, [r7, #0]
+ 84         assert(salt_len + 4 <= sizeof(saltplus));
+0000076c:   ldr     r3, [r7, #0]
+0000076e:   adds    r2, r3, #4
+00000770:   movs    r3, #128        ; 0x80
+00000772:   lsls    r3, r3, #4
+00000774:   cmp     r2, r3
+00000776:   bls.n   0x780 <F+36>
+00000778:   ldr     r3, [pc, #408]  ; (0x914 <F+440>)
+0000077a:   movs    r0, r3
+0000077c:   bl      0x2264 <__assertion_failed>
+ 86         for (i=0; i<salt_len; i++)
+00000780:   movs    r3, #0
+00000782:   ldr     r2, [pc, #404]  ; (0x918 <F+444>)
+00000784:   adds    r2, r7, r2
+00000786:   str     r3, [r2, #0]
+00000788:   b.n     0x7b2 <F+86>
+ 87           saltplus[i] = salt[i];
+0000078a:   ldr     r2, [r7, #4]
+0000078c:   ldr     r0, [pc, #392]  ; (0x918 <F+444>)
+0000078e:   adds    r3, r7, r0
+00000790:   ldr     r3, [r3, #0]
+00000792:   adds    r3, r2, r3
+00000794:   ldrb    r1, [r3, #0]
+00000796:   ldr     r3, [pc, #388]  ; (0x91c <F+448>)
+00000798:   ldr     r2, [pc, #388]  ; (0x920 <F+452>)
+0000079a:   adds    r2, r7, r2
+0000079c:   adds    r2, r2, r3
+0000079e:   adds    r3, r7, r0
+000007a0:   ldr     r3, [r3, #0]
+000007a2:   adds    r3, r2, r3
+000007a4:   adds    r2, r1, #0
+000007a6:   strb    r2, [r3, #0]
+ 86         for (i=0; i<salt_len; i++)
+000007a8:   adds    r3, r7, r0
+000007aa:   ldr     r3, [r3, #0]
+000007ac:   adds    r3, #1
+000007ae:   adds    r2, r7, r0
+000007b0:   str     r3, [r2, #0]
+000007b2:   ldr     r0, [pc, #356]  ; (0x918 <F+444>)
+000007b4:   adds    r3, r7, r0
+000007b6:   ldr     r2, [r3, #0]
+000007b8:   ldr     r3, [r7, #0]
+000007ba:   cmp     r2, r3
+000007bc:   bcc.n   0x78a <F+46>
+ 90         saltplus[i] = (blkidx & 0xff000000) >> 24;
+000007be:   ldr     r4, [pc, #356]  ; (0x924 <F+456>)
+000007c0:   adds    r3, r7, r4
+000007c2:   ldr     r3, [r3, #0]
+000007c4:   lsrs    r3, r3, #24
+000007c6:   uxtb    r1, r3
+000007c8:   ldr     r3, [pc, #336]  ; (0x91c <F+448>)
+000007ca:   ldr     r2, [pc, #340]  ; (0x920 <F+452>)
+000007cc:   adds    r2, r7, r2
+000007ce:   adds    r2, r2, r3
+000007d0:   adds    r3, r7, r0
+000007d2:   ldr     r3, [r3, #0]
+000007d4:   adds    r3, r2, r3
+000007d6:   adds    r2, r1, #0
+000007d8:   strb    r2, [r3, #0]
+ 91         saltplus[i+1] = (blkidx & 0x00ff0000) >> 16;
+000007da:   adds    r3, r7, r4
+000007dc:   ldr     r3, [r3, #0]
+000007de:   lsrs    r2, r3, #16
+000007e0:   adds    r3, r7, r0
+000007e2:   ldr     r3, [r3, #0]
+000007e4:   adds    r3, #1
+000007e6:   uxtb    r1, r2
+000007e8:   ldr     r2, [pc, #304]  ; (0x91c <F+448>)
+000007ea:   ldr     r5, [pc, #308]  ; (0x920 <F+452>)
+000007ec:   mov     r12, r5
+000007ee:   add     r12, r7
+000007f0:   add     r2, r12
+000007f2:   strb    r1, [r2, r3]
+ 92         saltplus[i+2] = (blkidx & 0x0000ff00) >> 8;
+000007f4:   adds    r3, r7, r4
+000007f6:   ldr     r3, [r3, #0]
+000007f8:   lsrs    r2, r3, #8
+000007fa:   adds    r3, r7, r0
+000007fc:   ldr     r3, [r3, #0]
+000007fe:   adds    r3, #2
+00000800:   uxtb    r1, r2
+00000802:   ldr     r2, [pc, #280]  ; (0x91c <F+448>)
+00000804:   ldr     r5, [pc, #280]  ; (0x920 <F+452>)
+00000806:   mov     r12, r5
+00000808:   add     r12, r7
+0000080a:   add     r2, r12
+0000080c:   strb    r1, [r2, r3]
+ 93         saltplus[i+3] = (blkidx & 0x000000ff);
+0000080e:   adds    r3, r7, r0
+00000810:   ldr     r3, [r3, #0]
+00000812:   adds    r3, #3
+00000814:   adds    r2, r7, r4
+00000816:   ldr     r2, [r2, #0]
+00000818:   uxtb    r1, r2
+0000081a:   ldr     r2, [pc, #256]  ; (0x91c <F+448>)
+0000081c:   ldr     r0, [pc, #256]  ; (0x920 <F+452>)
+0000081e:   mov     r12, r0
+00000820:   add     r12, r7
+00000822:   add     r2, r12
+00000824:   strb    r1, [r2, r3]
+ 95         hmac_isha(pass, pass_len, saltplus, salt_len+4, temp);
+00000826:   ldr     r3, [r7, #0]
+00000828:   adds    r4, r3, #4
+0000082a:   movs    r3, #20
+0000082c:   adds    r2, r7, r3
+0000082e:   ldr     r1, [r7, #8]
+00000830:   ldr     r0, [r7, #12]
+00000832:   ldr     r3, [pc, #244]  ; (0x928 <F+460>)
+00000834:   adds    r3, r7, r3
+00000836:   str     r3, [sp, #0]
+00000838:   movs    r3, r4
+0000083a:   bl      0x3dbc <hmac_isha>
+ 96         for (int i=0; i<ISHA_DIGESTLEN; i++)
+0000083e:   movs    r3, #0
+00000840:   movs    r2, #131        ; 0x83
+00000842:   lsls    r2, r2, #4
+00000844:   adds    r2, r7, r2
+00000846:   str     r3, [r2, #0]
+00000848:   b.n     0x874 <F+280>
+ 97           result[i] = temp[i];
+0000084a:   movs    r0, #131        ; 0x83
+0000084c:   lsls    r0, r0, #4
+0000084e:   adds    r3, r7, r0
+00000850:   ldr     r3, [r3, #0]
+00000852:   movs    r2, #133        ; 0x85
+00000854:   lsls    r2, r2, #4
+00000856:   adds    r2, r7, r2
+00000858:   ldr     r2, [r2, #0]
+0000085a:   adds    r3, r2, r3
+0000085c:   ldr     r2, [pc, #200]  ; (0x928 <F+460>)
+0000085e:   adds    r1, r7, r2
+00000860:   adds    r2, r7, r0
+00000862:   ldr     r2, [r2, #0]
+00000864:   adds    r2, r1, r2
+00000866:   ldrb    r2, [r2, #0]
+00000868:   strb    r2, [r3, #0]
+ 96         for (int i=0; i<ISHA_DIGESTLEN; i++)
+0000086a:   adds    r3, r7, r0
+0000086c:   ldr     r3, [r3, #0]
+0000086e:   adds    r3, #1
+00000870:   adds    r2, r7, r0
+00000872:   str     r3, [r2, #0]
+00000874:   movs    r3, #131        ; 0x83
+00000876:   lsls    r3, r3, #4
+00000878:   adds    r3, r7, r3
+0000087a:   ldr     r3, [r3, #0]
+0000087c:   cmp     r3, #19
+0000087e:   ble.n   0x84a <F+238>
+ 99         for (int j=1; j<iter; j++) {
+00000880:   movs    r3, #1
+00000882:   ldr     r2, [pc, #168]  ; (0x92c <F+464>)
+00000884:   adds    r2, r7, r2
+00000886:   str     r3, [r2, #0]
+00000888:   b.n     0x8f4 <F+408>
+100           hmac_isha(pass, pass_len, temp, ISHA_DIGESTLEN, temp);
+0000088a:   ldr     r3, [pc, #156]  ; (0x928 <F+460>)
+0000088c:   adds    r2, r7, r3
+0000088e:   ldr     r1, [r7, #8]
+00000890:   ldr     r0, [r7, #12]
+00000892:   adds    r3, r7, r3
+00000894:   str     r3, [sp, #0]
+00000896:   movs    r3, #20
+00000898:   bl      0x3dbc <hmac_isha>
+101           for (int i=0; i<ISHA_DIGESTLEN; i++)
+0000089c:   movs    r3, #0
+0000089e:   ldr     r2, [pc, #144]  ; (0x930 <F+468>)
+000008a0:   adds    r2, r7, r2
+000008a2:   str     r3, [r2, #0]
+000008a4:   b.n     0x8de <F+386>
+102             result[i] ^= temp[i];
+000008a6:   ldr     r4, [pc, #136]  ; (0x930 <F+468>)
+000008a8:   adds    r3, r7, r4
+000008aa:   ldr     r3, [r3, #0]
+000008ac:   movs    r0, #133        ; 0x85
+000008ae:   lsls    r0, r0, #4
+000008b0:   adds    r2, r7, r0
+000008b2:   ldr     r2, [r2, #0]
+000008b4:   adds    r3, r2, r3
+000008b6:   ldrb    r1, [r3, #0]
+000008b8:   ldr     r3, [pc, #108]  ; (0x928 <F+460>)
+000008ba:   adds    r2, r7, r3
+000008bc:   adds    r3, r7, r4
+000008be:   ldr     r3, [r3, #0]
+000008c0:   adds    r3, r2, r3
+000008c2:   ldrb    r2, [r3, #0]
+000008c4:   adds    r3, r7, r4
+000008c6:   ldr     r3, [r3, #0]
+000008c8:   adds    r0, r7, r0
+000008ca:   ldr     r0, [r0, #0]
+000008cc:   adds    r3, r0, r3
+000008ce:   eors    r2, r1
+000008d0:   uxtb    r2, r2
+000008d2:   strb    r2, [r3, #0]
+101           for (int i=0; i<ISHA_DIGESTLEN; i++)
+000008d4:   adds    r3, r7, r4
+000008d6:   ldr     r3, [r3, #0]
+000008d8:   adds    r3, #1
+000008da:   adds    r2, r7, r4
+000008dc:   str     r3, [r2, #0]
+000008de:   ldr     r3, [pc, #80]   ; (0x930 <F+468>)
+000008e0:   adds    r3, r7, r3
+000008e2:   ldr     r3, [r3, #0]
+000008e4:   cmp     r3, #19
+000008e6:   ble.n   0x8a6 <F+330>
+ 99         for (int j=1; j<iter; j++) {
+000008e8:   ldr     r2, [pc, #64]   ; (0x92c <F+464>)
+000008ea:   adds    r3, r7, r2
+000008ec:   ldr     r3, [r3, #0]
+000008ee:   adds    r3, #1
+000008f0:   adds    r2, r7, r2
+000008f2:   str     r3, [r2, #0]
+000008f4:   ldr     r3, [pc, #52]   ; (0x92c <F+464>)
+000008f6:   adds    r3, r7, r3
+000008f8:   ldr     r2, [r3, #0]
+000008fa:   ldr     r3, [pc, #56]   ; (0x934 <F+472>)
+000008fc:   adds    r3, r7, r3
+000008fe:   ldr     r3, [r3, #0]
+00000900:   cmp     r2, r3
+00000902:   blt.n   0x88a <F+302>
+104       }
+00000904:   nop     ; (mov r8, r8)
+00000906:   nop     ; (mov r8, r8)
+00000908:   mov     sp, r7
+0000090a:   ldr     r3, [pc, #20]   ; (0x920 <F+452>)
+0000090c:   add     sp, r3
+0000090e:   pop     {r4, r5, r7, pc}
+00000910:   bl      0xfffc1912
+00000914:   add     r0, r8
+00000916:   movs    r0, r0
+00000918:   lsrs    r4, r6, #32
+0000091a:   movs    r0, r0
+0000091c:   bl      0xfffdd91e
+00000920:   lsrs    r0, r7, #32
+00000922:   movs    r0, r0
+00000924:   lsrs    r4, r1, #1
+00000926:   movs    r0, r0
+00000928:   lsrs    r4, r2, #32
+0000092a:   movs    r0, r0
+0000092c:   lsrs    r4, r5, #32
+0000092e:   movs    r0, r0
+00000930:   lsrs    r0, r5, #32
+00000932:   movs    r0, r0
+00000934:   lsrs    r0, r1, #1
+00000936:   movs    r0, r0
+112       {
