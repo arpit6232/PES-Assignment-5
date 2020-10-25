@@ -24,10 +24,10 @@ typedef struct
 {
   uint32_t MD[5];        // Message Digest (output)
 
-  uint32_t Length_Low;   // Message length in bits
-  uint32_t Length_High;  // Message length in bits
+//  uint32_t Length_Low;   // Message length in bits
+//  uint32_t Length_High;  // Message length in bits
 
-  uint32_t buffer;     // Upon Perusal it was found the
+  uint32_t buffer;     // Upon Perusal it was found that keeping track of two lengths was taking longer
 
   uint8_t MBlock[64];    // 512-bit message blocks
   int MB_Idx;            // Index into message block array

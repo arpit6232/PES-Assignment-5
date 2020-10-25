@@ -54,6 +54,10 @@ Steps: <br />
 
     -  Output the derived key DK.
 
+**Technically, the following is observed:**
+    -  hmac_isha computes the HMAC value for a given key and bytestream, using ISHA as the underlying hash. The output is also a 20-byte value.
+    -  pbkdf2_hmac_isha can be used to derive keys of arbitrary length, based on a password and salt specified by the caller.  The output of PBKDF2 is a derived key, DK, of the length in bytes specified by the dk_len parameter.
+
 ### Outline of ISHA 
 A typical application of the key derivation functions defined here
    might include the following steps: <br />
@@ -77,6 +81,12 @@ A typical application of the key derivation functions defined here
         - Apply H to the stream generated in the previous step and return the result
 
     -  Output the derived key.  
+
+
+**Technically,** <br />
+- ISHAReset is used to restore an ISHA context to its default state. You can think of this as an initialization function.
+-  ISHAInput is used to push bytes into the ISHA hashing algorithm. After a call to ISHAReset, ISHAInput may be called as many times as needed Like SHA-1, the ISHA algorithm can hash up to 2^61 bytes.
+- ISHAResult is called once all bytes have been input into the algorithm. This function performs some padding and final computations, and then outputs the ISHA hash—a 160-bit (20 byte) value.
 
 
 ### Profiling Analsysis before Optimization
@@ -108,9 +118,11 @@ Profiling Based Time :<br />
             - pbkdf2_hmac_isha(...) = #1 
             - F(...) = #3
             - hmac_isha() = #4096
-            - ISHAReset() = #8192
-            - ISHAInput() = #16384
-            - ISHAResult() = #8192
+            - ISHAReset() = #24576
+            - ISHAInput() = #49152
+            - ISHAResult() = #24576
+            - ISHAProcessMessageBlock(...) = 49152
+            - ISHAPadMessage(...) = 24576
             
     - **Call Stack Analysis**
             - F(...)
@@ -129,9 +141,9 @@ Profiling Based Time :<br />
             - ![picture](images/pbkdf2_hmac_isha.png)
 
 
-**Thus it makes sense to Optimize the Functions for speed with the maximum number of function calls, ideally it should Time for single function multiplied by the Number of calls but, it takes approximately 1msec to run ISHA Algorithm** <br />
+**Thus it makes sense to Optimize for speed, the Functions with the maximum number of function calls should be prioratized, ideally it should Time for single function multiplied by the Number of calls but, it takes approximately 1msec to run ISHA Algorithm** <br />
 
-### Size Analysis** 
+### Size Analysis 
 <br />    Name	                Size  <br />
 .text.hmac_isha 	        0x00000186 <br />
 .text.F         	        0x000001dc <br />
@@ -144,8 +156,22 @@ Profiling Based Time :<br />
 .text.ISHAReset	            0x00000060 <br />
 .text.ISHAResult	        0x000000c0 <br />
 .text.ISHAInput	            0x000000ae <br />
+---------------------------------------<br />
+Total                       0x00000ACA
 
-
-
-
+### Size Analysis Post Optimization
+<br />    Name	                Size  <br />
+.text.hmac_isha 	        0x00000154 <br />
+.text.F         	        0x000002f4 <br />
+.text.pbkdf2_hmac_isha	    0x000000f8 <br />
+.text.main   	            0x0000004c <br />
+.text.time_pbkdf2_hmac_isha 0x00000154 <br />
+.text.run_tests 	        0x0000006a <br />
+.text.ISHAProcessMessageBlock 	0x00000640 <br />
+.text.ISHAPadMessage 	    0x000000dc <br />
+.text.ISHAReset	            0x0000005c <br />
+.text.ISHAResult	        0x0000011e <br />
+.text.ISHAInput	            0x00000094 <br />
+--------------------------------------------- <br />
+Total                       0x00000A34 <br />
     

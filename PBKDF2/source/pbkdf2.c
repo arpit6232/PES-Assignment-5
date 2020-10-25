@@ -8,9 +8,9 @@
  */
 
 #include <assert.h>
-
 #include "pbkdf2.h"
 #include <string.h>
+
 
 /*
  * See function description in pbkdf2.h
@@ -55,6 +55,7 @@ void hmac_isha(const uint8_t *key, size_t key_len,
   ISHAInput(&ctx, opad, ISHA_BLOCKLEN);
   ISHAInput(&ctx, inner_digest, ISHA_DIGESTLEN);
   ISHAResult(&ctx, digest);
+
 }
 
 
@@ -141,6 +142,8 @@ static void F(const uint8_t *pass, size_t pass_len,
 	  }
 	  j++;
   }
+
+
 }
 
 

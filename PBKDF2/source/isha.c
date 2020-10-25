@@ -30,7 +30,6 @@
 static void ISHAProcessMessageBlock(ISHAContext *ctx)
 {
   uint32_t temp;
-//  int t;
   uint32_t A, B, C, D, E;
 
   A = ctx->MD[0];
@@ -159,6 +158,8 @@ static void ISHAProcessMessageBlock(ISHAContext *ctx)
   ctx->MD[4] = (ctx->MD[4] + E) & 0xFFFFFFFF;
 
   ctx->MB_Idx = 0;
+
+
 }
 
 
@@ -207,14 +208,16 @@ static void ISHAPadMessage(ISHAContext *ctx)
     ctx->MBlock[63] = (ctx->buffer << 3) & 0xFF;
 
   ISHAProcessMessageBlock(ctx);
+
+
 }
 
 
 void ISHAReset(ISHAContext *ctx)
 {
-  ctx->Length_Low  = 0;
-  ctx->Length_High = 0;
-  ctx->MB_Idx      = 0;
+//  ctx->Length_Low  = 0;
+//  ctx->Length_High = 0;
+  ctx->MB_Idx = 0;
   ctx->buffer = 0;
 
   ctx->MD[0]       = 0x67452301;
@@ -225,6 +228,8 @@ void ISHAReset(ISHAContext *ctx)
 
   ctx->Computed    = 0;
   ctx->Corrupted   = 0;
+
+
 }
 
 
@@ -277,6 +282,7 @@ void ISHAInput(ISHAContext *ctx, const uint8_t *message_array, size_t length)
       ISHAProcessMessageBlock(ctx);
     }
   }
+
 }
 
 
