@@ -187,13 +187,13 @@ Following Changes were incorporated . <br />
 **Function -> static void ISHAProcessMessageBlock(ISHAContext *ctx):** <br />
 1) W(t) loop was combined into a single loop <br />
     -  Previously <br />
-        for(t = 0; t < 16; t++) <br />
+       <strong> for(t = 0; t < 16; t++) <br />
         { <br /> 
             W[t] = ((uint32_t) ctx->MBlock[t * 4]) << 24; <br />
             W[t] |= ((uint32_t) ctx->MBlock[t * 4 + 1]) << 16; <br />
             W[t] |= ((uint32_t) ctx->MBlock[t * 4 + 2]) << 8; <br />
             W[t] |= ((uint32_t) ctx->MBlock[t * 4 + 3]); <br />
-        }
+        } </strong>
 
         for(t = 0; t < 16; t++) <br />
         { <br />
@@ -207,11 +207,12 @@ Following Changes were incorporated . <br />
         } 
 <br />
     - Updated <br />
-
-        while(t<16) { <br />
+        <strong>
+        while(t<16) { 
         temp = (ISHACircularShift(5,A) + ((B & C) | ((~B) & D)) + E + 
                 ( (((uint32_t) ctx->MBlock[t*4]) << 24) | (((uint32_t) ctx->MBlock[t*4+1]) << 16) |
                         (((uint32_t) ctx->MBlock[t*4+2]) << 8) | ( ((uint32_t) ctx->MBlock[t*4+3]))) ) & 0xFFFFFFFF ;
+        </strong>
         E = D; 
         D = C;
         C = ISHACircularShift(30,B);
@@ -219,4 +220,74 @@ Following Changes were incorporated . <br />
         A = temp;
         t++;
         }
+
+
+**Function -> static void ISHAPadMessage(ISHAContext *ctx):** <br />
+1) Padding logic was changed to incorporate processing data from a single length file <br />
+2) memset replaced setting to '0' logic<br />
+3) Padding of length had to be recalcualted in terms of bytes and bits 
+    -  Previously <br />
+        if (ctx->MB_Idx > 55)
+            {   </strong>
+                ctx->MBlock[ctx->MB_Idx++] = 0x80;
+                while(ctx->MB_Idx < 64)
+                {
+                ctx->MBlock[ctx->MB_Idx++] = 0;
+                }
+                </strong>
+                ISHAProcessMessageBlock(ctx);
+                <strong>
+                while(ctx->MB_Idx < 56)
+                {
+                ctx->MBlock[ctx->MB_Idx++] = 0;
+                }
+                </strong>
+            }
+            else
+            {   <strong>
+                ctx->MBlock[ctx->MB_Idx++] = 0x80;
+                while(ctx->MB_Idx < 56)
+                {
+                ctx->MBlock[ctx->MB_Idx++] = 0;
+                }
+                </strong>
+            }
+
+            ctx->MBlock[56] = (ctx->Length_High >> 24) & 0xFF;
+            ctx->MBlock[57] = (ctx->Length_High >> 16) & 0xFF;
+            ctx->MBlock[58] = (ctx->Length_High >> 8) & 0xFF;
+            ctx->MBlock[59] = (ctx->Length_High) & 0xFF;
+            ctx->MBlock[60] = (ctx->Length_Low >> 24) & 0xFF;
+            ctx->MBlock[61] = (ctx->Length_Low >> 16) & 0xFF;
+            ctx->MBlock[62] = (ctx->Length_Low >> 8) & 0xFF;
+            ctx->MBlock[63] = (ctx->Length_Low) & 0xFF;
+
+    - Updated <br />
         
+        if (ctx->MB_Idx > 55)
+            {   
+                ctx->MBlock[ctx->MB_Idx++] = 0x80;
+<strong>
+                memset(ctx->MBlock + ctx->MB_Idx, 0, ISHA_BLOCKLEN - ctx->MB_Idx);
+</strong>
+                ISHAProcessMessageBlock(ctx);
+<strong>
+                memset(ctx->MBlock, 0, ISHA_BLOCKLEN - 6);
+</strong>        
+            }
+            else
+            {
+                ctx->MBlock[ctx->MB_Idx++] = 0x80;
+                // Had to remove the while loop here
+<strong>
+                memset(ctx->MBlock + ctx->MB_Idx, 0, 59 - ctx->MB_Idx);
+</strong>
+            }
+<strong>
+        ctx->MBlock[59] = (ctx->buffer >> MBlockConst1) & 0xFF;
+        ctx->MBlock[60] = (ctx->buffer >> MBlockConst2) & 0xFF;
+        ctx->MBlock[61] = (ctx->buffer >> MBlockConst3) & 0xFF;
+        ctx->MBlock[62] = (ctx->buffer >> MBlockConst4) & 0xFF;
+        ctx->MBlock[63] = (ctx->buffer << MBlockConst5) & 0xFF;
+</strong>
+

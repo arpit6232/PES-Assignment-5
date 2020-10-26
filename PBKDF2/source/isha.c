@@ -109,7 +109,7 @@ static void ISHAPadMessage(ISHAContext *ctx)
    *  Store the message length as the last 8 octets
    */
 
-  	// Last 5 bits manipulated, these constants were changed
+  	// Last 5 bytes manipulated, these constants were changed
   	// Based on bytes calcualation.
     ctx->MBlock[59] = (ctx->buffer >> MBlockConst1) & 0xFF;
     ctx->MBlock[60] = (ctx->buffer >> MBlockConst2) & 0xFF;
