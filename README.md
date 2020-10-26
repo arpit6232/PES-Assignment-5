@@ -260,3 +260,11 @@ Following Changes were incorporated . <br />
         memcpy( keypad, key, key_len ); <br />
 	    memset( keypad + key_len, 0x00, ISHA_BLOCKLEN ); <br />
 <br />
+
+
+# Size .text Analysis 
+    - Previously 
+        - 20,712 (bytes) 
+
+    - Updated 
+        - 20,776
