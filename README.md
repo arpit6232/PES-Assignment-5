@@ -267,27 +267,21 @@ Following Changes were incorporated . <br />
         if (ctx->MB_Idx > 55)
             {   
                 ctx->MBlock[ctx->MB_Idx++] = 0x80;
-<strong>
                 memset(ctx->MBlock + ctx->MB_Idx, 0, ISHA_BLOCKLEN - ctx->MB_Idx);
-</strong>
                 ISHAProcessMessageBlock(ctx);
-<strong>
-                memset(ctx->MBlock, 0, ISHA_BLOCKLEN - 6);
-</strong>        
+                memset(ctx->MBlock, 0, ISHA_BLOCKLEN - 6);      
             }
             else
             {
                 ctx->MBlock[ctx->MB_Idx++] = 0x80;
                 // Had to remove the while loop here
-<strong>
                 memset(ctx->MBlock + ctx->MB_Idx, 0, 59 - ctx->MB_Idx);
-</strong>
             }
 <strong>
-        ctx->MBlock[59] = (ctx->buffer >> MBlockConst1) & 0xFF;
-        ctx->MBlock[60] = (ctx->buffer >> MBlockConst2) & 0xFF;
-        ctx->MBlock[61] = (ctx->buffer >> MBlockConst3) & 0xFF;
-        ctx->MBlock[62] = (ctx->buffer >> MBlockConst4) & 0xFF;
-        ctx->MBlock[63] = (ctx->buffer << MBlockConst5) & 0xFF;
+        ctx->MBlock[59] = (ctx->buffer >> MBlockConst1) & 0xFF; <br />
+        ctx->MBlock[60] = (ctx->buffer >> MBlockConst2) & 0xFF; <br />
+        ctx->MBlock[61] = (ctx->buffer >> MBlockConst3) & 0xFF; <br />
+        ctx->MBlock[62] = (ctx->buffer >> MBlockConst4) & 0xFF; <br />
+        ctx->MBlock[63] = (ctx->buffer << MBlockConst5) & 0xFF; <br />
 </strong>
 
