@@ -187,13 +187,13 @@ Following Changes were incorporated . <br />
 **Function -> static void ISHAProcessMessageBlock(ISHAContext *ctx):** <br />
 1) W(t) loop was combined into a single loop <br />
     -  Previously <br />
-       <strong> for(t = 0; t < 16; t++) <br />
+        for(t = 0; t < 16; t++) <br />
         { <br /> 
             W[t] = ((uint32_t) ctx->MBlock[t * 4]) << 24; <br />
             W[t] |= ((uint32_t) ctx->MBlock[t * 4 + 1]) << 16; <br />
             W[t] |= ((uint32_t) ctx->MBlock[t * 4 + 2]) << 8; <br />
             W[t] |= ((uint32_t) ctx->MBlock[t * 4 + 3]); <br />
-        } </strong>
+        } 
 
         for(t = 0; t < 16; t++) <br />
         { <br />
@@ -207,12 +207,10 @@ Following Changes were incorporated . <br />
         } 
 <br />
     - Updated <br />
-        <strong>
         while(t<16) { 
         temp = (ISHACircularShift(5,A) + ((B & C) | ((~B) & D)) + E + 
                 ( (((uint32_t) ctx->MBlock[t*4]) << 24) | (((uint32_t) ctx->MBlock[t*4+1]) << 16) |
                         (((uint32_t) ctx->MBlock[t*4+2]) << 8) | ( ((uint32_t) ctx->MBlock[t*4+3]))) ) & 0xFFFFFFFF ;
-        </strong>
         E = D; 
         D = C;
         C = ISHACircularShift(30,B);
@@ -228,29 +226,25 @@ Following Changes were incorporated . <br />
 3) Padding of length had to be recalcualted in terms of bytes and bits 
     -  Previously <br />
         if (ctx->MB_Idx > 55)
-            {   </strong>
+            {
                 ctx->MBlock[ctx->MB_Idx++] = 0x80;
                 while(ctx->MB_Idx < 64)
                 {
                 ctx->MBlock[ctx->MB_Idx++] = 0;
                 }
-                </strong>
                 ISHAProcessMessageBlock(ctx);
-                <strong>
                 while(ctx->MB_Idx < 56)
                 {
                 ctx->MBlock[ctx->MB_Idx++] = 0;
                 }
-                </strong>
             }
             else
-            {   <strong>
+            { 
                 ctx->MBlock[ctx->MB_Idx++] = 0x80;
                 while(ctx->MB_Idx < 56)
                 {
                 ctx->MBlock[ctx->MB_Idx++] = 0;
                 }
-                </strong>
             }
 
             ctx->MBlock[56] = (ctx->Length_High >> 24) & 0xFF;
@@ -262,7 +256,7 @@ Following Changes were incorporated . <br />
             ctx->MBlock[62] = (ctx->Length_Low >> 8) & 0xFF;
             ctx->MBlock[63] = (ctx->Length_Low) & 0xFF;
 
-    - Updated <br />
+    - Updated 
         
         if (ctx->MB_Idx > 55)
             {   
