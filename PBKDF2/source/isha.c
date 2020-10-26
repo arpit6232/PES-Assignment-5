@@ -94,9 +94,9 @@ static void ISHAPadMessage(ISHAContext *ctx)
   if (ctx->MB_Idx > 55)
   {
     ctx->MBlock[ctx->MB_Idx++] = 0x80;
-    memset(ctx->MBlock + ctx->MB_Idx, 0, 64 - ctx->MB_Idx);
+    memset(ctx->MBlock + ctx->MB_Idx, 0, ISHA_BLOCKLEN - ctx->MB_Idx);
     ISHAProcessMessageBlock(ctx);
-    memset(ctx->MBlock, 0, 58);
+    memset(ctx->MBlock, 0, ISHA_BLOCKLEN - 6);
   }
   else
   {
@@ -109,11 +109,13 @@ static void ISHAPadMessage(ISHAContext *ctx)
    *  Store the message length as the last 8 octets
    */
 
-    ctx->MBlock[59] = (ctx->buffer >> 29) & 0xFF;
-    ctx->MBlock[60] = (ctx->buffer >> 21) & 0xFF;
-    ctx->MBlock[61] = (ctx->buffer >> 13) & 0xFF;
-    ctx->MBlock[62] = (ctx->buffer >> 5) & 0xFF;
-    ctx->MBlock[63] = (ctx->buffer << 3) & 0xFF;
+  	// Last 5 bits manipulated, these constants were changed
+  	// Based on bytes calcualation.
+    ctx->MBlock[59] = (ctx->buffer >> MBlockConst1) & 0xFF;
+    ctx->MBlock[60] = (ctx->buffer >> MBlockConst2) & 0xFF;
+    ctx->MBlock[61] = (ctx->buffer >> MBlockConst3) & 0xFF;
+    ctx->MBlock[62] = (ctx->buffer >> MBlockConst4) & 0xFF;
+    ctx->MBlock[63] = (ctx->buffer << MBlockConst5) & 0xFF;
 
   ISHAProcessMessageBlock(ctx);
 
@@ -175,8 +177,8 @@ void ISHAInput(ISHAContext *ctx, const uint8_t *message_array, size_t length)
   while(length)
   {
 	  temp = length;
-	if( (64 - ctx->MB_Idx) < length) {
-		temp = 64 - ctx->MB_Idx;
+	if( (ISHA_BLOCKLEN - ctx->MB_Idx) < length) {
+		temp = ISHA_BLOCKLEN - ctx->MB_Idx;
 	}
 
 	memcpy(ctx->MBlock + ctx->MB_Idx, message_array, temp);
@@ -185,7 +187,7 @@ void ISHAInput(ISHAContext *ctx, const uint8_t *message_array, size_t length)
 	length -= temp;
 
 
-    if (ctx->MB_Idx == 64)
+    if (ctx->MB_Idx == ISHA_BLOCKLEN)
     {
       ISHAProcessMessageBlock(ctx);
     }

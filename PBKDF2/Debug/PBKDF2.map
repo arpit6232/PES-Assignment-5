@@ -200,7 +200,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000      0x12e ./source/pbkdf2.o
  .debug_macro   0x0000000000000000      0x5b3 ./source/pbkdf2.o
  .debug_macro   0x0000000000000000       0x28 ./source/pbkdf2.o
- .debug_macro   0x0000000000000000       0x16 ./source/pbkdf2.o
+ .debug_macro   0x0000000000000000       0x34 ./source/pbkdf2.o
  .group         0x0000000000000000        0xc ./source/pbkdf2_test.o
  .group         0x0000000000000000        0xc ./source/pbkdf2_test.o
  .group         0x0000000000000000        0xc ./source/pbkdf2_test.o
@@ -222,7 +222,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000       0xd8 ./source/pbkdf2_test.o
  .debug_macro   0x0000000000000000       0x16 ./source/pbkdf2_test.o
  .debug_macro   0x0000000000000000       0x22 ./source/pbkdf2_test.o
- .debug_macro   0x0000000000000000       0x16 ./source/pbkdf2_test.o
+ .debug_macro   0x0000000000000000       0x34 ./source/pbkdf2_test.o
  .group         0x0000000000000000        0xc ./source/semihost_hardfault.o
  .text          0x0000000000000000        0x0 ./source/semihost_hardfault.o
  .data          0x0000000000000000        0x0 ./source/semihost_hardfault.o
@@ -2138,7 +2138,7 @@ OUTPUT(PBKDF2.axf elf32-littlearm)
  .debug_ranges  0x00000000000006f8       0x28 ./board/pin_mux.o
  .debug_ranges  0x0000000000000720       0x18 ./CMSIS/system_MKL25Z4.o
 
-.debug_macro    0x0000000000000000     0x8f1e
+.debug_macro    0x0000000000000000     0x8f5a
  .debug_macro   0x0000000000000000      0x13a ./utilities/fsl_debug_console.o
  .debug_macro   0x000000000000013a      0xaba ./utilities/fsl_debug_console.o
  .debug_macro   0x0000000000000bf4       0x10 ./utilities/fsl_debug_console.o
@@ -2168,87 +2168,87 @@ OUTPUT(PBKDF2.axf elf32-littlearm)
  .debug_macro   0x0000000000007fee       0x29 ./startup/startup_mkl25z4.o
  .debug_macro   0x0000000000008017       0x78 ./source/isha.o
  .debug_macro   0x000000000000808f       0x22 ./source/isha.o
- .debug_macro   0x00000000000080b1       0x16 ./source/isha.o
- .debug_macro   0x00000000000080c7      0x184 ./source/main.o
- .debug_macro   0x000000000000824b       0xd8 ./source/main.o
- .debug_macro   0x0000000000008323       0x16 ./source/main.o
- .debug_macro   0x0000000000008339       0x10 ./source/main.o
- .debug_macro   0x0000000000008349      0x112 ./source/main.o
- .debug_macro   0x000000000000845b       0x34 ./source/main.o
- .debug_macro   0x000000000000848f       0x1c ./source/main.o
- .debug_macro   0x00000000000084ab       0x2f ./source/mtb.o
- .debug_macro   0x00000000000084da       0x82 ./source/mtb.o
- .debug_macro   0x000000000000855c       0x10 ./source/mtb.o
- .debug_macro   0x000000000000856c       0x7f ./source/pbkdf2.o
- .debug_macro   0x00000000000085eb       0x1c ./source/pbkdf2.o
- .debug_macro   0x0000000000008607       0xa4 ./source/pbkdf2_test.o
- .debug_macro   0x00000000000086ab       0x10 ./source/pbkdf2_test.o
- .debug_macro   0x00000000000086bb       0x11 ./source/semihost_hardfault.o
- .debug_macro   0x00000000000086cc       0x96 ./source/ticktime.o
- .debug_macro   0x0000000000008762       0x34 ./source/ticktime.o
- .debug_macro   0x0000000000008796      0x196 ./drivers/fsl_clock.o
- .debug_macro   0x000000000000892c       0xec ./drivers/fsl_lpsci.o
- .debug_macro   0x0000000000008a18       0xf2 ./drivers/fsl_uart.o
- .debug_macro   0x0000000000008b0a      0x12b ./board/board.o
- .debug_macro   0x0000000000008c35      0x123 ./board/clock_config.o
- .debug_macro   0x0000000000008d58       0x1b ./board/peripherals.o
- .debug_macro   0x0000000000008d73      0x107 ./board/pin_mux.o
- .debug_macro   0x0000000000008e7a       0x10 ./board/pin_mux.o
- .debug_macro   0x0000000000008e8a       0x94 ./CMSIS/system_MKL25Z4.o
+ .debug_macro   0x00000000000080b1       0x34 ./source/isha.o
+ .debug_macro   0x00000000000080e5      0x184 ./source/main.o
+ .debug_macro   0x0000000000008269       0xd8 ./source/main.o
+ .debug_macro   0x0000000000008341       0x16 ./source/main.o
+ .debug_macro   0x0000000000008357       0x10 ./source/main.o
+ .debug_macro   0x0000000000008367      0x112 ./source/main.o
+ .debug_macro   0x0000000000008479       0x34 ./source/main.o
+ .debug_macro   0x00000000000084ad       0x3a ./source/main.o
+ .debug_macro   0x00000000000084e7       0x2f ./source/mtb.o
+ .debug_macro   0x0000000000008516       0x82 ./source/mtb.o
+ .debug_macro   0x0000000000008598       0x10 ./source/mtb.o
+ .debug_macro   0x00000000000085a8       0x7f ./source/pbkdf2.o
+ .debug_macro   0x0000000000008627       0x1c ./source/pbkdf2.o
+ .debug_macro   0x0000000000008643       0xa4 ./source/pbkdf2_test.o
+ .debug_macro   0x00000000000086e7       0x10 ./source/pbkdf2_test.o
+ .debug_macro   0x00000000000086f7       0x11 ./source/semihost_hardfault.o
+ .debug_macro   0x0000000000008708       0x96 ./source/ticktime.o
+ .debug_macro   0x000000000000879e       0x34 ./source/ticktime.o
+ .debug_macro   0x00000000000087d2      0x196 ./drivers/fsl_clock.o
+ .debug_macro   0x0000000000008968       0xec ./drivers/fsl_lpsci.o
+ .debug_macro   0x0000000000008a54       0xf2 ./drivers/fsl_uart.o
+ .debug_macro   0x0000000000008b46      0x12b ./board/board.o
+ .debug_macro   0x0000000000008c71      0x123 ./board/clock_config.o
+ .debug_macro   0x0000000000008d94       0x1b ./board/peripherals.o
+ .debug_macro   0x0000000000008daf      0x107 ./board/pin_mux.o
+ .debug_macro   0x0000000000008eb6       0x10 ./board/pin_mux.o
+ .debug_macro   0x0000000000008ec6       0x94 ./CMSIS/system_MKL25Z4.o
 
-.debug_line     0x0000000000000000     0x561a
+.debug_line     0x0000000000000000     0x561c
  .debug_line    0x0000000000000000      0x4d5 ./utilities/fsl_debug_console.o
  .debug_line    0x00000000000004d5      0x1e7 ./startup/startup_mkl25z4.o
- .debug_line    0x00000000000006bc      0x399 ./source/isha.o
- .debug_line    0x0000000000000a55      0x475 ./source/main.o
- .debug_line    0x0000000000000eca       0xd5 ./source/mtb.o
- .debug_line    0x0000000000000f9f      0x2d9 ./source/pbkdf2.o
- .debug_line    0x0000000000001278      0x3f5 ./source/pbkdf2_test.o
- .debug_line    0x000000000000166d       0x59 ./source/semihost_hardfault.o
- .debug_line    0x00000000000016c6      0x364 ./source/ticktime.o
- .debug_line    0x0000000000001a2a     0x12ee ./drivers/fsl_clock.o
- .debug_line    0x0000000000002d18      0xd67 ./drivers/fsl_lpsci.o
- .debug_line    0x0000000000003a7f      0xd56 ./drivers/fsl_uart.o
- .debug_line    0x00000000000047d5      0x37d ./board/board.o
- .debug_line    0x0000000000004b52      0x3d5 ./board/clock_config.o
- .debug_line    0x0000000000004f27       0x5c ./board/peripherals.o
- .debug_line    0x0000000000004f83      0x35c ./board/pin_mux.o
- .debug_line    0x00000000000052df      0x33b ./CMSIS/system_MKL25Z4.o
+ .debug_line    0x00000000000006bc      0x39b ./source/isha.o
+ .debug_line    0x0000000000000a57      0x475 ./source/main.o
+ .debug_line    0x0000000000000ecc       0xd5 ./source/mtb.o
+ .debug_line    0x0000000000000fa1      0x2d9 ./source/pbkdf2.o
+ .debug_line    0x000000000000127a      0x3f5 ./source/pbkdf2_test.o
+ .debug_line    0x000000000000166f       0x59 ./source/semihost_hardfault.o
+ .debug_line    0x00000000000016c8      0x364 ./source/ticktime.o
+ .debug_line    0x0000000000001a2c     0x12ee ./drivers/fsl_clock.o
+ .debug_line    0x0000000000002d1a      0xd67 ./drivers/fsl_lpsci.o
+ .debug_line    0x0000000000003a81      0xd56 ./drivers/fsl_uart.o
+ .debug_line    0x00000000000047d7      0x37d ./board/board.o
+ .debug_line    0x0000000000004b54      0x3d5 ./board/clock_config.o
+ .debug_line    0x0000000000004f29       0x5c ./board/peripherals.o
+ .debug_line    0x0000000000004f85      0x35c ./board/pin_mux.o
+ .debug_line    0x00000000000052e1      0x33b ./CMSIS/system_MKL25Z4.o
 
-.debug_str      0x0000000000000000    0x3603f
+.debug_str      0x0000000000000000    0x3608d
  .debug_str     0x0000000000000000    0x31624 ./utilities/fsl_debug_console.o
                                       0x3187d (size before relaxing)
  .debug_str     0x0000000000031624      0x3e1 ./startup/startup_mkl25z4.o
                                        0x3211 (size before relaxing)
- .debug_str     0x0000000000031a05      0x1ae ./source/isha.o
-                                       0x4743 (size before relaxing)
- .debug_str     0x0000000000031bb3      0xe1f ./source/main.o
-                                      0x31897 (size before relaxing)
- .debug_str     0x00000000000329d2      0x532 ./source/mtb.o
+ .debug_str     0x0000000000031a05      0x1fc ./source/isha.o
+                                       0x4791 (size before relaxing)
+ .debug_str     0x0000000000031c01      0xe1f ./source/main.o
+                                      0x318e5 (size before relaxing)
+ .debug_str     0x0000000000032a20      0x532 ./source/mtb.o
                                        0x331d (size before relaxing)
- .debug_str     0x0000000000032f04       0x7a ./source/pbkdf2.o
-                                       0x47bf (size before relaxing)
- .debug_str     0x0000000000032f7e       0xdf ./source/pbkdf2_test.o
-                                       0x4c02 (size before relaxing)
- .debug_str     0x000000000003305d       0x1f ./source/semihost_hardfault.o
+ .debug_str     0x0000000000032f52       0x7a ./source/pbkdf2.o
+                                       0x480d (size before relaxing)
+ .debug_str     0x0000000000032fcc       0xdf ./source/pbkdf2_test.o
+                                       0x4c50 (size before relaxing)
+ .debug_str     0x00000000000330ab       0x1f ./source/semihost_hardfault.o
                                        0x2e0a (size before relaxing)
- .debug_str     0x000000000003307c      0x2af ./source/ticktime.o
+ .debug_str     0x00000000000330ca      0x2af ./source/ticktime.o
                                       0x29083 (size before relaxing)
- .debug_str     0x000000000003332b     0x15b6 ./drivers/fsl_clock.o
+ .debug_str     0x0000000000033379     0x15b6 ./drivers/fsl_clock.o
                                       0x32318 (size before relaxing)
- .debug_str     0x00000000000348e1      0x964 ./drivers/fsl_lpsci.o
+ .debug_str     0x000000000003492f      0x964 ./drivers/fsl_lpsci.o
                                       0x31920 (size before relaxing)
- .debug_str     0x0000000000035245      0x832 ./drivers/fsl_uart.o
+ .debug_str     0x0000000000035293      0x832 ./drivers/fsl_uart.o
                                       0x31943 (size before relaxing)
- .debug_str     0x0000000000035a77       0x4c ./board/board.o
+ .debug_str     0x0000000000035ac5       0x4c ./board/board.o
                                       0x31790 (size before relaxing)
- .debug_str     0x0000000000035ac3      0x300 ./board/clock_config.o
+ .debug_str     0x0000000000035b11      0x300 ./board/clock_config.o
                                       0x31246 (size before relaxing)
- .debug_str     0x0000000000035dc3       0x31 ./board/peripherals.o
+ .debug_str     0x0000000000035e11       0x31 ./board/peripherals.o
                                        0x2e1b (size before relaxing)
- .debug_str     0x0000000000035df4      0x1fc ./board/pin_mux.o
+ .debug_str     0x0000000000035e42      0x1fc ./board/pin_mux.o
                                       0x309a9 (size before relaxing)
- .debug_str     0x0000000000035ff0       0x4f ./CMSIS/system_MKL25Z4.o
+ .debug_str     0x000000000003603e       0x4f ./CMSIS/system_MKL25Z4.o
                                       0x2fc82 (size before relaxing)
 
 .comment        0x0000000000000000       0x79

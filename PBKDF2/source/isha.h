@@ -18,6 +18,12 @@
 #define ISHA_BLOCKLEN  64  // length of an ISHA block, in bytes
 #define ISHA_DIGESTLEN 20  // length of an ISHA digest, in bytes
 
+#define MBlockConst1 29
+#define MBlockConst2 21
+#define MBlockConst3 13
+#define MBlockConst4 5
+#define MBlockConst5 3
+
 #define bswap32(x) ((((x) & 0xff000000) >> 24) | (((x) & 0x00ff0000) >>  8) | (((x) & 0x0000ff00) <<  8) | (((x) & 0x000000ff) << 24))
 
 typedef struct 
