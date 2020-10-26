@@ -81,10 +81,8 @@ static void F(const uint8_t *pass, size_t pass_len,
     int iter, unsigned int blkidx, uint8_t *result)
 {
 
-	uint8_t inner_digest[ISHA_DIGESTLEN];
-		  	ISHAContext ctx;
-
-
+  uint8_t inner_digest[ISHA_DIGESTLEN];
+  ISHAContext ctx;
   uint8_t temp[ISHA_DIGESTLEN];
   uint8_t saltplus[2048];
   size_t i;

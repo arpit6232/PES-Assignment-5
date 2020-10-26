@@ -208,22 +208,22 @@ Following Changes were incorporated . <br />
 <br />
     - Updated <br />
         while(t<16) { 
-        temp = (ISHACircularShift(5,A) + ((B & C) | ((~B) & D)) + E + 
+        temp = (ISHACircularShift(5,A) + ((B & C) | ((~B) & D)) + E +  
                 ( (((uint32_t) ctx->MBlock[t*4]) << 24) | (((uint32_t) ctx->MBlock[t*4+1]) << 16) |
-                        (((uint32_t) ctx->MBlock[t*4+2]) << 8) | ( ((uint32_t) ctx->MBlock[t*4+3]))) ) & 0xFFFFFFFF ;
-        E = D; 
-        D = C;
-        C = ISHACircularShift(30,B);
-        B = A;
-        A = temp;
-        t++;
-        }
+                        (((uint32_t) ctx->MBlock[t*4+2]) << 8) | ( ((uint32_t) ctx->MBlock[t*4+3]))) ) & 0xFFFFFFFF ; <br />
+        E = D;  <br />
+        D = C; <br />
+        C = ISHACircularShift(30,B); <br />
+        B = A; <br />
+        A = temp; <br />
+        t++; <br />
+        } <br />
 <br />
 
 ## Function -> static void ISHAPadMessage(ISHAContext *ctx):** <br />
 1) Padding logic was changed to incorporate processing data from a single length file <br />
 2) memset replaced setting to '0' logic<br />
-3) Padding of length had to be recalcualted in terms of bytes and bits 
+3) Padding of length had to be recalculated in terms of bytes and bits 
     -  Previously <br />
         if (ctx->MB_Idx > 55)
             {
@@ -256,21 +256,22 @@ Following Changes were incorporated . <br />
             ctx->MBlock[62] = (ctx->Length_Low >> 8) & 0xFF;
             ctx->MBlock[63] = (ctx->Length_Low) & 0xFF;
 
-    - Updated 
-        
-        if (ctx->MB_Idx > 55)
+<br />
+    - Updated  <br />
+        <br />
+        <br />if (ctx->MB_Idx > 55) 
             {   
-                ctx->MBlock[ctx->MB_Idx++] = 0x80;
-                memset(ctx->MBlock + ctx->MB_Idx, 0, ISHA_BLOCKLEN - ctx->MB_Idx);
-                ISHAProcessMessageBlock(ctx);
-                memset(ctx->MBlock, 0, ISHA_BLOCKLEN - 6);      
-            }
-            else
-            {
-                ctx->MBlock[ctx->MB_Idx++] = 0x80;
-                // Had to remove the while loop here
-                memset(ctx->MBlock + ctx->MB_Idx, 0, 59 - ctx->MB_Idx);
-            }
+            <br />    ctx->MBlock[ctx->MB_Idx++] = 0x80;
+            <br />    memset(ctx->MBlock + ctx->MB_Idx, 0, ISHA_BLOCKLEN - ctx->MB_Idx);
+            <br />    ISHAProcessMessageBlock(ctx);
+            <br />    memset(ctx->MBlock, 0, ISHA_BLOCKLEN - 6);      
+            <br />}
+            <br />else
+            <br />{
+            <br />    ctx->MBlock[ctx->MB_Idx++] = 0x80;
+            <br />    // Had to remove the while loop here
+            <br />    memset(ctx->MBlock + ctx->MB_Idx, 0, 59 - ctx->MB_Idx);
+            <br />}
 <strong>
         ctx->MBlock[59] = (ctx->buffer >> MBlockConst1) & 0xFF; <br />
         ctx->MBlock[60] = (ctx->buffer >> MBlockConst2) & 0xFF; <br />
@@ -338,5 +339,77 @@ Following Changes were incorporated . <br />
         ctx->MB_Idx += temp;
         message_array += temp;
         length -= temp;
+        
+
+## Function -> void F(...)** <br />
+1) Part of the logic of the hmac_isha into F(__) to remove duplicate checks and assertions<br />
+    -  Previously <br />
+        for (i=0; i<salt_len; i++)
+        saltplus[i] = salt[i];
+<br />
+        **AND**  
+<br />
+        for (int j=1; j<iter; j++) {
+        hmac_isha(pass, pass_len, temp, ISHA_DIGESTLEN, temp);
+        for (int i=0; i<ISHA_DIGESTLEN; i++)
+        result[i] ^= temp[i];
+        } 
+
+<br />
+    - Updated <br />
+        - Following Sections were copied from hmac isha and added here  <br /> 
+        uint8_t inner_digest[ISHA_DIGESTLEN]; <br /> 
+        ISHAContext ctx; <br /> 
+        uint8_t ipad[ISHA_BLOCKLEN]; <br /> 
+        uint8_t opad[ISHA_BLOCKLEN]; <br /> 
+        for (i=0; i<pass_len; i++) { 
+            ipad[i] = pass[i] ^ 0x36; 
+            opad[i] = pass[i] ^ 0x5c;
+        }
+
+<br /> 
+        for (int j=1; j<iter; j++) { 
+            hmac_isha(pass, pass_len, temp, ISHA_DIGESTLEN, temp);
+            for (int i=0; i<ISHA_DIGESTLEN; i++)
+            result[i] ^= temp[i];
+        }
+
+<br />
+        memset( ipad + i, 0x36, ISHA_BLOCKLEN - i );   <br />
+        memset( opad + i, 0x5C, ISHA_BLOCKLEN - i ); <br />
+        memcpy( saltplus, salt, salt_len );  <br />
+        i = salt_len; <br />
+        // Perform inner ISHA <br />
+        ISHAReset(&ctx); <br />
+        ISHAInput(&ctx, ipad, ISHA_BLOCKLEN);  <br />
+        ISHAInput(&ctx, saltplus, salt_len+4); <br />
+        ISHAResult(&ctx, inner_digest); <br />
+        // perform outer ISHA <br />
+        ISHAReset(&ctx); <br />
+        ISHAInput(&ctx, opad, ISHA_BLOCKLEN); <br />
+        ISHAInput(&ctx, inner_digest, ISHA_DIGESTLEN); <br />
+        ISHAResult(&ctx, temp); <br />
+        memcpy( result, temp, ISHA_DIGESTLEN ); <br />
+        int j = 1;
+        while(j<iter) {
+            # Perform inner ISHA
+            ISHAReset(&ctx);
+            ISHAInput(&ctx, ipad, ISHA_BLOCKLEN);
+            ISHAInput(&ctx, temp, ISHA_DIGESTLEN);
+            ISHAResult(&ctx, inner_digest);
+            # perform outer ISHA
+            ISHAReset(&ctx);
+            ISHAInput(&ctx, opad, ISHA_BLOCKLEN);
+            ISHAInput(&ctx, inner_digest, ISHA_DIGESTLEN);
+            ISHAResult(&ctx, temp);
+            int i = 0;
+
+<br />
+            while(i<ISHA_DIGESTLEN) {
+                result[i] ^= temp[i];
+                i++;
+            }
+            j++;
+        }
         
   
