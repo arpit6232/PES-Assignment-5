@@ -279,3 +279,61 @@ Following Changes were incorporated . <br />
         ctx->MBlock[63] = (ctx->buffer << MBlockConst5) & 0xFF; <br />
 </strong>
 
+**Function -> void ISHAResult(ISHAContext *ctx, uint8_t *digest_out)** <br />
+1) All the big endian calculations were replaced with bswap32 <br />
+    -  Previously <br />
+        for (int i=0; i<20; i+=4) {
+        digest_out[i]   = (ctx->MD[i/4] & 0xff000000) >> 24;
+        digest_out[i+1] = (ctx->MD[i/4] & 0x00ff0000) >> 16;
+        digest_out[i+2] = (ctx->MD[i/4] & 0x0000ff00) >> 8;
+        digest_out[i+3] = (ctx->MD[i/4] & 0x000000ff);
+        }
+<br />
+    - Updated <br />
+        *((uint32_t *)(digest_out )) = bswap32(ctx->MD[0]);
+        *((uint32_t *)(digest_out + 4)) = bswap32(ctx->MD[1]);
+        *((uint32_t *)(digest_out + 8)) = bswap32(ctx->MD[2]);
+        *((uint32_t *)(digest_out + 12)) = bswap32(ctx->MD[3]);
+        *((uint32_t *)(digest_out + 16)) = bswap32(ctx->MD[4]);
+
+**Function -> void ISHAInput(ISHAContext *ctx, const uint8_t *message_array, size_t length)** <br />
+1) Length_Low and Length_High were replaced by a single buffer calculation and Corrupted check was removed<br />
+    -  Previously <br />
+        if (ctx->Computed || ctx->Corrupted)
+        {
+            ctx->Corrupted = 1;
+            return;
+        }
+
+        while(length-- && !ctx->Corrupted)
+        {
+        ctx->MBlock[ctx->MB_Idx++] = (*message_array & 0xFF);
+
+        ctx->Length_Low += 8;
+        ctx->Length_Low &= 0xFFFFFFFF;
+        if (ctx->Length_Low == 0)
+        {
+        ctx->Length_High++;
+        ctx->Length_High &= 0xFFFFFFFF;
+        if (ctx->Length_High == 0)
+        {
+            ctx->Corrupted = 1;
+        }
+        }
+<br />
+    - Updated <br />
+    
+        ctx->buffer += length;
+        while(length)
+        {
+        temp = length;
+        if( (ISHA_BLOCKLEN - ctx->MB_Idx) < length) {
+            temp = ISHA_BLOCKLEN - ctx->MB_Idx;
+        }
+
+        memcpy(ctx->MBlock + ctx->MB_Idx, message_array, temp);
+        ctx->MB_Idx += temp;
+        message_array += temp;
+        length -= temp;
+        
+  
