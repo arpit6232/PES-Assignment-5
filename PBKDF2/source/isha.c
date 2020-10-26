@@ -7,6 +7,11 @@
  *
  * Based on code for sha1 processing from Paul E. Jones, available at
  * https://www.packetizer.com/security/sha1/
+ *
+ *
+ * ** Arpit Savarkar Edit**
+ * Updated the length logic in accordance to
+ * http://mercury.pr.erau.edu/~siewerts/cec450/code/example-3/sha1.c
  */
 
 #include <string.h>
@@ -30,6 +35,7 @@
 static void ISHAProcessMessageBlock(ISHAContext *ctx)
 {
   uint32_t temp;
+  int t=0;
   uint32_t A, B, C, D, E;
 
   A = ctx->MD[0];
@@ -38,118 +44,20 @@ static void ISHAProcessMessageBlock(ISHAContext *ctx)
   D = ctx->MD[3];
   E = ctx->MD[4];
 
-  // Combining the For loop, Bit Operations are Computationally cheap so it reduces Computation Time
-	temp = ( ISHACircularShift(5,A) + ((B & C) | ((~B) & D)) + E + ( (((uint32_t) ctx->MBlock[0]) << 24) | (((uint32_t) ctx->MBlock[1]) << 16) | (((uint32_t) ctx->MBlock[2]) << 8) | ( ((uint32_t) ctx->MBlock[3]))) ) & 0xFFFFFFFF ;
-	E = D;
-	D = C;
-	C = ISHACircularShift(30,B);
-	B = A;
-	A = temp;
+//  for(t=0; t<16; t++) {
+  while(t<16) {
+	  temp = (ISHACircularShift(5,A) + ((B & C) | ((~B) & D)) + E +
+			  ( (((uint32_t) ctx->MBlock[t*4]) << 24) | (((uint32_t) ctx->MBlock[t*4+1]) << 16) |
+					  (((uint32_t) ctx->MBlock[t*4+2]) << 8) | ( ((uint32_t) ctx->MBlock[t*4+3]))) ) & 0xFFFFFFFF ;
+	  E = D;
+	  D = C;
+	  C = ISHACircularShift(30,B);
+	  B = A;
+	  A = temp;
+	  t++;
+  }
 
-	temp = ( ISHACircularShift(5,A) + ((B & C) | ((~B) & D)) + E + ( (((uint32_t) ctx->MBlock[4]) << 24) | (((uint32_t) ctx->MBlock[5]) << 16) | (((uint32_t) ctx->MBlock[6]) << 8) | ( ((uint32_t) ctx->MBlock[7]))) ) & 0xFFFFFFFF ;
-	E = D;
-	D = C;
-	C = ISHACircularShift(30,B);
-	B = A;
-	A = temp;
 
-	temp = ( ISHACircularShift(5,A) + ((B & C) | ((~B) & D)) + E + ( (((uint32_t) ctx->MBlock[8]) << 24) | (((uint32_t) ctx->MBlock[9]) << 16) | (((uint32_t) ctx->MBlock[10]) << 8) | ( ((uint32_t) ctx->MBlock[11]))) ) & 0xFFFFFFFF ;
-	E = D;
-	D = C;
-	C = ISHACircularShift(30,B);
-	B = A;
-	A = temp;
-
-	temp = ( ISHACircularShift(5,A) + ((B & C) | ((~B) & D)) + E + ( (((uint32_t) ctx->MBlock[12]) << 24) | (((uint32_t) ctx->MBlock[13]) << 16) | (((uint32_t) ctx->MBlock[14]) << 8) | ( ((uint32_t) ctx->MBlock[15]))) ) & 0xFFFFFFFF ;
-	E = D;
-	D = C;
-	C = ISHACircularShift(30,B);
-	B = A;
-	A = temp;
-
-	temp = ( ISHACircularShift(5,A) + ((B & C) | ((~B) & D)) + E + ( (((uint32_t) ctx->MBlock[16]) << 24) | (((uint32_t) ctx->MBlock[17]) << 16) | (((uint32_t) ctx->MBlock[18]) << 8) | ( ((uint32_t) ctx->MBlock[19]))) ) & 0xFFFFFFFF ;
-	E = D;
-	D = C;
-	C = ISHACircularShift(30,B);
-	B = A;
-	A = temp;
-
-	temp = ( ISHACircularShift(5,A) + ((B & C) | ((~B) & D)) + E + ( (((uint32_t) ctx->MBlock[20]) << 24) | (((uint32_t) ctx->MBlock[21]) << 16) | (((uint32_t) ctx->MBlock[22]) << 8) | ( ((uint32_t) ctx->MBlock[23]))) ) & 0xFFFFFFFF ;
-	E = D;
-	D = C;
-	C = ISHACircularShift(30,B);
-	B = A;
-	A = temp;
-
-	temp = ( ISHACircularShift(5,A) + ((B & C) | ((~B) & D)) + E + ( (((uint32_t) ctx->MBlock[24]) << 24) | (((uint32_t) ctx->MBlock[25]) << 16) | (((uint32_t) ctx->MBlock[26]) << 8) | ( ((uint32_t) ctx->MBlock[27]))) ) & 0xFFFFFFFF ;
-	E = D;
-	D = C;
-	C = ISHACircularShift(30,B);
-	B = A;
-	A = temp;
-
-	temp = ( ISHACircularShift(5,A) + ((B & C) | ((~B) & D)) + E + ( (((uint32_t) ctx->MBlock[28]) << 24) | (((uint32_t) ctx->MBlock[29]) << 16) | (((uint32_t) ctx->MBlock[30]) << 8) | ( ((uint32_t) ctx->MBlock[31]))) ) & 0xFFFFFFFF ;
-	E = D;
-	D = C;
-	C = ISHACircularShift(30,B);
-	B = A;
-	A = temp;
-
-	temp = ( ISHACircularShift(5,A) + ((B & C) | ((~B) & D)) + E + ( (((uint32_t) ctx->MBlock[32]) << 24) | (((uint32_t) ctx->MBlock[33]) << 16) | (((uint32_t) ctx->MBlock[34]) << 8) | ( ((uint32_t) ctx->MBlock[35]))) ) & 0xFFFFFFFF ;
-	E = D;
-	D = C;
-	C = ISHACircularShift(30,B);
-	B = A;
-	A = temp;
-
-	temp = ( ISHACircularShift(5,A) + ((B & C) | ((~B) & D)) + E + ( (((uint32_t) ctx->MBlock[36]) << 24) | (((uint32_t) ctx->MBlock[37]) << 16) | (((uint32_t) ctx->MBlock[38]) << 8) | ( ((uint32_t) ctx->MBlock[39]))) ) & 0xFFFFFFFF ;
-	E = D;
-	D = C;
-	C = ISHACircularShift(30,B);
-	B = A;
-	A = temp;
-
-	temp = ( ISHACircularShift(5,A) + ((B & C) | ((~B) & D)) + E + ( (((uint32_t) ctx->MBlock[40]) << 24) | (((uint32_t) ctx->MBlock[41]) << 16) | (((uint32_t) ctx->MBlock[42]) << 8) | ( ((uint32_t) ctx->MBlock[43]))) ) & 0xFFFFFFFF ;
-	E = D;
-	D = C;
-	C = ISHACircularShift(30,B);
-	B = A;
-	A = temp;
-
-	temp = ( ISHACircularShift(5,A) + ((B & C) | ((~B) & D)) + E + ( (((uint32_t) ctx->MBlock[44]) << 24) | (((uint32_t) ctx->MBlock[45]) << 16) | (((uint32_t) ctx->MBlock[46]) << 8) | ( ((uint32_t) ctx->MBlock[47]))) ) & 0xFFFFFFFF ;
-	E = D;
-	D = C;
-	C = ISHACircularShift(30,B);
-	B = A;
-	A = temp;
-
-	temp = ( ISHACircularShift(5,A) + ((B & C) | ((~B) & D)) + E + ( (((uint32_t) ctx->MBlock[48]) << 24) | (((uint32_t) ctx->MBlock[49]) << 16) | (((uint32_t) ctx->MBlock[50]) << 8) | ( ((uint32_t) ctx->MBlock[51]))) ) & 0xFFFFFFFF ;
-	E = D;
-	D = C;
-	C = ISHACircularShift(30,B);
-	B = A;
-	A = temp;
-
-	temp = ( ISHACircularShift(5,A) + ((B & C) | ((~B) & D)) + E + ( (((uint32_t) ctx->MBlock[52]) << 24) | (((uint32_t) ctx->MBlock[53]) << 16) | (((uint32_t) ctx->MBlock[54]) << 8) | ( ((uint32_t) ctx->MBlock[55]))) ) & 0xFFFFFFFF ;
-	E = D;
-	D = C;
-	C = ISHACircularShift(30,B);
-	B = A;
-	A = temp;
-
-	temp = ( ISHACircularShift(5,A) + ((B & C) | ((~B) & D)) + E + ( (((uint32_t) ctx->MBlock[56]) << 24) | (((uint32_t) ctx->MBlock[57]) << 16) | (((uint32_t) ctx->MBlock[58]) << 8) | ( ((uint32_t) ctx->MBlock[59]))) ) & 0xFFFFFFFF ;
-	E = D;
-	D = C;
-	C = ISHACircularShift(30,B);
-	B = A;
-	A = temp;
-
-	temp = ( ISHACircularShift(5,A) + ((B & C) | ((~B) & D)) + E + ( (((uint32_t) ctx->MBlock[60]) << 24) | (((uint32_t) ctx->MBlock[61]) << 16) | (((uint32_t) ctx->MBlock[62]) << 8) | ( ((uint32_t) ctx->MBlock[63]))) ) & 0xFFFFFFFF ;
-	E = D;
-	D = C;
-	C = ISHACircularShift(30,B);
-	B = A;
-	A = temp;
 
   ctx->MD[0] = (ctx->MD[0] + A) & 0xFFFFFFFF;
   ctx->MD[1] = (ctx->MD[1] + B) & 0xFFFFFFFF;

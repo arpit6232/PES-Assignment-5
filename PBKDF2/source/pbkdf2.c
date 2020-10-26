@@ -39,9 +39,11 @@ void hmac_isha(const uint8_t *key, size_t key_len,
   }
 
   // XOR key into ipad and opad
-  for (i=0; i<ISHA_BLOCKLEN; i++) {
-    ipad[i] = keypad[i] ^ 0x36;
-    opad[i] = keypad[i] ^ 0x5c;
+  i = 0;
+  while(i<ISHA_BLOCKLEN) {
+	  ipad[i] = keypad[i] ^ 0x36;
+	  opad[i] = keypad[i] ^ 0x5c;
+	  i++;
   }
 
   // Perform inner ISHA
@@ -102,7 +104,7 @@ static void F(const uint8_t *pass, size_t pass_len,
    i = salt_len;
 
 
-//  // append blkidx in 4 bytes big endian
+  // append blkidx in 4 bytes big endian
   saltplus[i] = (blkidx & 0xff000000) >> 24;
   saltplus[i+1] = (blkidx & 0x00ff0000) >> 16;
   saltplus[i+2] = (blkidx & 0x0000ff00) >> 8;
