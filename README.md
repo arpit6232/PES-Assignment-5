@@ -184,7 +184,7 @@ Total                       0x00000A34 <br />
 # Code Optimization 
 Following Changes were incorporated . <br />
 
-**Function -> static void ISHAProcessMessageBlock(ISHAContext *ctx):** <br />
+## Function -> static void ISHAProcessMessageBlock(ISHAContext *ctx):** <br />
 1) W(t) loop was combined into a single loop <br />
     -  Previously <br />
         for(t = 0; t < 16; t++) <br />
@@ -218,9 +218,9 @@ Following Changes were incorporated . <br />
         A = temp;
         t++;
         }
+<br />
 
-
-**Function -> static void ISHAPadMessage(ISHAContext *ctx):** <br />
+## Function -> static void ISHAPadMessage(ISHAContext *ctx):** <br />
 1) Padding logic was changed to incorporate processing data from a single length file <br />
 2) memset replaced setting to '0' logic<br />
 3) Padding of length had to be recalcualted in terms of bytes and bits 
@@ -278,51 +278,54 @@ Following Changes were incorporated . <br />
         ctx->MBlock[62] = (ctx->buffer >> MBlockConst4) & 0xFF; <br />
         ctx->MBlock[63] = (ctx->buffer << MBlockConst5) & 0xFF; <br />
 </strong>
+<br />
 
-**Function -> void ISHAResult(ISHAContext *ctx, uint8_t *digest_out)** <br />
+## Function -> void ISHAResult(ISHAContext *ctx, uint8_t *digest_out)** <br />
 1) All the big endian calculations were replaced with bswap32 <br />
     -  Previously <br />
-        for (int i=0; i<20; i+=4) {
-        digest_out[i]   = (ctx->MD[i/4] & 0xff000000) >> 24;
-        digest_out[i+1] = (ctx->MD[i/4] & 0x00ff0000) >> 16;
-        digest_out[i+2] = (ctx->MD[i/4] & 0x0000ff00) >> 8;
-        digest_out[i+3] = (ctx->MD[i/4] & 0x000000ff);
-        }
+        for (int i=0; i<20; i+=4) { <br />
+        digest_out[i]   = (ctx->MD[i/4] & 0xff000000) >> 24; <br />
+        digest_out[i+1] = (ctx->MD[i/4] & 0x00ff0000) >> 16; <br />
+        digest_out[i+2] = (ctx->MD[i/4] & 0x0000ff00) >> 8; <br />
+        digest_out[i+3] = (ctx->MD[i/4] & 0x000000ff); <br />
+        } <br />
 <br />
     - Updated <br />
-        *((uint32_t *)(digest_out )) = bswap32(ctx->MD[0]);
-        *((uint32_t *)(digest_out + 4)) = bswap32(ctx->MD[1]);
-        *((uint32_t *)(digest_out + 8)) = bswap32(ctx->MD[2]);
-        *((uint32_t *)(digest_out + 12)) = bswap32(ctx->MD[3]);
-        *((uint32_t *)(digest_out + 16)) = bswap32(ctx->MD[4]);
+        *((uint32_t *)(digest_out )) = bswap32(ctx->MD[0]); <br />
+        *((uint32_t *)(digest_out + 4)) = bswap32(ctx->MD[1]); <br />
+        *((uint32_t *)(digest_out + 8)) = bswap32(ctx->MD[2]); <br />
+        *((uint32_t *)(digest_out + 12)) = bswap32(ctx->MD[3]); <br />
+        *((uint32_t *)(digest_out + 16)) = bswap32(ctx->MD[4]); <br />
+<br />
 
-**Function -> void ISHAInput(ISHAContext *ctx, const uint8_t *message_array, size_t length)** <br />
+
+## Function -> void ISHAInput(ISHAContext *ctx, const uint8_t *message_array, size_t length)** <br />
 1) Length_Low and Length_High were replaced by a single buffer calculation and Corrupted check was removed<br />
     -  Previously <br />
-        if (ctx->Computed || ctx->Corrupted)
-        {
-            ctx->Corrupted = 1;
-            return;
-        }
+        if (ctx->Computed || ctx->Corrupted) <br />
+        { <br />
+            ctx->Corrupted = 1; <br />
+            return; <br /> 
+        } <br />
 
-        while(length-- && !ctx->Corrupted)
-        {
-        ctx->MBlock[ctx->MB_Idx++] = (*message_array & 0xFF);
+        while(length-- && !ctx->Corrupted) 
+            {
+            ctx->MBlock[ctx->MB_Idx++] = (*message_array & 0xFF); 
 
-        ctx->Length_Low += 8;
-        ctx->Length_Low &= 0xFFFFFFFF;
-        if (ctx->Length_Low == 0)
-        {
-        ctx->Length_High++;
-        ctx->Length_High &= 0xFFFFFFFF;
-        if (ctx->Length_High == 0)
-        {
-            ctx->Corrupted = 1;
-        }
+            ctx->Length_Low += 8;
+            ctx->Length_Low &= 0xFFFFFFFF;
+            if (ctx->Length_Low == 0)
+            {
+            ctx->Length_High++;
+            ctx->Length_High &= 0xFFFFFFFF;
+            if (ctx->Length_High == 0)
+            {
+                ctx->Corrupted = 1;
+            }
         }
 <br />
     - Updated <br />
-    
+
         ctx->buffer += length;
         while(length)
         {
