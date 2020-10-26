@@ -349,7 +349,8 @@ Following Changes were incorporated . <br />
 <br />
         **AND**  
 <br />
-        for (int j=1; j<iter; j++) {
+
+        for (int j=1; j<iter; j++) {  
         hmac_isha(pass, pass_len, temp, ISHA_DIGESTLEN, temp);
         for (int i=0; i<ISHA_DIGESTLEN; i++)
         result[i] ^= temp[i];
@@ -368,6 +369,7 @@ Following Changes were incorporated . <br />
         }
 
 <br /> 
+
         for (int j=1; j<iter; j++) { 
             hmac_isha(pass, pass_len, temp, ISHA_DIGESTLEN, temp);
             for (int i=0; i<ISHA_DIGESTLEN; i++)
