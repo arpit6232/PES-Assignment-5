@@ -392,8 +392,9 @@ Following Changes were incorporated . <br />
         ISHAInput(&ctx, inner_digest, ISHA_DIGESTLEN); <br />
         ISHAResult(&ctx, temp); <br />
         memcpy( result, temp, ISHA_DIGESTLEN ); <br />
-        int j = 1;
-        while(j<iter) {
+        int j = 1; <br />
+
+        while(j<iter) { 
             # Perform inner ISHA
             ISHAReset(&ctx);
             ISHAInput(&ctx, ipad, ISHA_BLOCKLEN);
@@ -407,6 +408,7 @@ Following Changes were incorporated . <br />
             int i = 0;
 
 <br />
+
             while(i<ISHA_DIGESTLEN) {
                 result[i] ^= temp[i];
                 i++;
