@@ -34,16 +34,25 @@ Following Changes were incorporated . <br />
         } 
 <br />
     - Updated <br />
+<br />
         while(t<16) { 
+  
         temp = (ISHACircularShift(5,A) + ((B & C) | ((~B) & D)) + E +  
                 ( (((uint32_t) ctx->MBlock[t*4]) << 24) | (((uint32_t) ctx->MBlock[t*4+1]) << 16) |
                         (((uint32_t) ctx->MBlock[t*4+2]) << 8) | ( ((uint32_t) ctx->MBlock[t*4+3]))) ) & 0xFFFFFFFF ; <br />
+<br />        
         E = D;  <br />
+<br />        
         D = C; <br />
+<br />        
         C = ISHACircularShift(30,B); <br />
+<br />        
         B = A; <br />
+<br />        
         A = temp; <br />
+<br />        
         t++; <br />
+<br />  
         } <br />
 <br />
 
@@ -118,7 +127,9 @@ Following Changes were incorporated . <br />
         digest_out[i+3] = (ctx->MD[i/4] & 0x000000ff); <br />
         } <br />
 <br />
+
     - Updated <br />
+<br />
         *((uint32_t *)(digest_out )) = bswap32(ctx->MD[0]); <br />
         *((uint32_t *)(digest_out + 4)) = bswap32(ctx->MD[1]); <br />
         *((uint32_t *)(digest_out + 8)) = bswap32(ctx->MD[2]); <br />
@@ -247,12 +258,11 @@ Following Changes were incorporated . <br />
 ## Function -> void hmac_isha(...) <br />
 1) All the big endian calculations were replaced with bswap32 <br />
     -  Previously <br />
-        else {
-            
-        for (i=0; i<key_len; i++) 
 
-        keypad[i] = key[i]; 
-        for(i=key_len; i<ISHA_BLOCKLEN; i++) 
+        else { 
+        for (i=0; i < key_len; i++)<br />
+        keypad[i] = key[i];  <br />
+        for(i=key_len; i < ISHA_BLOCKLEN; i++) 
         keypad[i] = 0x00; 
         }
 <br />
