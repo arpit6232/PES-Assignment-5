@@ -98,8 +98,10 @@ static void F(const uint8_t *pass, size_t pass_len,
   memset( ipad + i, 0x36, ISHA_BLOCKLEN - i );
   memset( opad + i, 0x5C, ISHA_BLOCKLEN - i );
 
-  memcpy( saltplus, salt, salt_len );
-   i = salt_len;
+//  memcpy( saltplus, salt, salt_len );
+//   i = salt_len;
+  for (i=0; i<salt_len; i++)
+      saltplus[i] = salt[i];
 
 
   // append blkidx in 4 bytes big endian
@@ -163,7 +165,9 @@ void pbkdf2_hmac_isha(const uint8_t *pass, size_t pass_len,
 	  i++;
   }
 
-  memcpy( DK, accumulator, dkLen );
+  for (size_t i=0; i<dkLen; i++) {
+      DK[i] = accumulator[i];
+  }
 }
 
 

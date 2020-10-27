@@ -67,8 +67,8 @@ static void ISHAProcessMessageBlock(ISHAContext *ctx)
 
   ctx->MB_Idx = 0;
 
-
 }
+
 
 
 /*  
@@ -154,11 +154,11 @@ void ISHAResult(ISHAContext *ctx, uint8_t *digest_out)
 
   // using built in functions optimizes the code for For faster speed
   // Removing the while loop here
-  *((uint32_t *)(digest_out )) = bswap32(ctx->MD[0]);
-  *((uint32_t *)(digest_out + 4)) = bswap32(ctx->MD[1]);
-  *((uint32_t *)(digest_out + 8)) = bswap32(ctx->MD[2]);
-  *((uint32_t *)(digest_out + 12)) = bswap32(ctx->MD[3]);
-  *((uint32_t *)(digest_out + 16)) = bswap32(ctx->MD[4]);
+  *((uint32_t *)(digest_out))=__builtin_bswap32(ctx->MD[0]);
+  	*((uint32_t *)(digest_out + 4))=__builtin_bswap32(ctx->MD[1]);
+  	*((uint32_t *)(digest_out + 8))=__builtin_bswap32(ctx->MD[2]);
+  	*((uint32_t *)(digest_out + 12))=__builtin_bswap32(ctx->MD[3]);
+  	*((uint32_t *)(digest_out + 16))=__builtin_bswap32(ctx->MD[4]);
 
   return;
 }
